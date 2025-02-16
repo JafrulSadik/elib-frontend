@@ -98,7 +98,6 @@ const BookCard = ({ image, title, author, rating }: Props) => {
           </div>
         </div>
       </div>
-      {/* <div className="absolute inset-0 ring-1 ring-[#D4B598]/10 rounded-2xl pointer-events-none" /> */}
     </Link>
   );
 };
