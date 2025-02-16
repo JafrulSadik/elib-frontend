@@ -1,0 +1,11 @@
+.embla__viewport {
+  overflow: hidden;
+  border-radius: 10px;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  flex: 0 0 100%;
+  position: relative;
+}
