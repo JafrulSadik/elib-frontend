@@ -41,7 +41,7 @@ const BookCard = ({ image, title, author, rating }: Props) => {
     }
   }, [color, dominantColor]);
 
-  const textColor = brightness >= 128 ? "text-bgPrimary" : "text-textPrimary";
+  const isDark = brightness < 128;
 
   return (
     <Link
@@ -70,16 +70,24 @@ const BookCard = ({ image, title, author, rating }: Props) => {
         </div>
       </div>
       <div
-        className={`absolute bottom-0 left-0 right-0 ${textColor} group-hover:text-[rgb(247,204,165)]`}
+        className={`absolute bottom-0 left-0 right-0 group-hover:text-[rgb(247,204,165)]`}
       >
-        <div className=" relative px-6 py-4">
-          {hexDominantColor && (
-            <div
-              className={`absolute inset-x-0 bottom-0 h-0 bg-bgPrimary opacity-50 rounded-b-md transition-all duration-500 group-hover:h-full`}
-            />
-          )}
-          <div className="relative z-10 group-hover:text-[#efcdae]">
-            <h3 className="text-xl truncate font-bold transition-colors group-hover:text-[rgb(247,204,165)]">
+        {hexDominantColor && (
+          <div
+            className={`absolute inset-x-0 bottom-0 h-0  rounded-b-md transition-all duration-500 backdrop-blur-xl group-hover:h-full ${
+              isDark
+                ? "bg-black opacity-50 text-textPrimary"
+                : "bg-white opacity-30"
+            }`}
+          />
+        )}
+        <div
+          className={`relative px-6 py-4  ${
+            !isDark ? "text-bgPrimary" : "text-textPrimary"
+          }`}
+        >
+          <div className="relative z-10 ">
+            <h3 className="text-xl truncate font-bold transition-colors">
               {title}
             </h3>
             <p className="text-sm ">by {author}</p>
@@ -90,7 +98,7 @@ const BookCard = ({ image, title, author, rating }: Props) => {
           </div>
         </div>
       </div>
-      <div className="absolute inset-0 ring-1 ring-[#D4B598]/10 rounded-2xl pointer-events-none" />
+      {/* <div className="absolute inset-0 ring-1 ring-[#D4B598]/10 rounded-2xl pointer-events-none" /> */}
     </Link>
   );
 };
