@@ -35,16 +35,19 @@ const RelatedBooks = () => {
           </button>
         </div>
 
-        <div className="space-y-6">
+        <div className="">
           {relatedBooks.map((book, index) => (
-            <div key={index} className="flex space-x-4">
+            <div
+              key={index}
+              className="flex space-x-4 border hover:border-[#C5A572]/30 hover:bg-[#2B1810]/30 transition duration-300 border-transparent p-4 rounded-xl"
+            >
               <img
                 src={book.image}
                 alt={book.title}
-                className="w-20 h-28 object-cover rounded-lg"
+                className="w-20 h-28 object-cover rounded-md"
               />
               <div>
-                <h3 className="text-[#C5A572] font-semibold mb-1">
+                <h3 className="text-[#C5A572] hover:text-[#c5a572]/70 font-semibold mb-1">
                   {book.title}
                 </h3>
                 <p className="text-gray-400 text-sm mb-2">by {book.author}</p>

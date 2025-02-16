@@ -17,7 +17,7 @@ const BookHeader = () => {
             <img
               src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=600"
               alt="Book Cover"
-              className="w-full rounded-lg shadow-2xl transform group-hover:scale-105 transition duration-300"
+              className="w-full rounded-lg shadow-2xl transform transition duration-300"
             />
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
               <button className="bg-[#C5A572] text-[#2B1810] px-6 py-3 rounded-lg font-semibold hover:bg-[#D4B684] transition duration-300">

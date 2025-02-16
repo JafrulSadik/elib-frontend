@@ -75,18 +75,18 @@ const BookCard = ({ image, title, author, rating }: Props) => {
         <div className=" relative px-6 py-4">
           {hexDominantColor && (
             <div
-              className={`absolute inset-x-0 bottom-0 h-0 bg-bgSecondary opacity-40 rounded-b-md transition-all duration-500 group-hover:h-full`}
+              className={`absolute inset-x-0 bottom-0 h-0 bg-bgPrimary opacity-50 rounded-b-md transition-all duration-500 group-hover:h-full`}
             />
           )}
-          <div className="relative z-10 ">
-            <h3 className="text-xl font-bold transition-colors group-hover:text-[rgb(247,204,165)]">
+          <div className="relative z-10 group-hover:text-[#efcdae]">
+            <h3 className="text-xl truncate font-bold transition-colors group-hover:text-[rgb(247,204,165)]">
               {title}
             </h3>
-            <p className="text-sm group-hover:text-[#efcdae]">by {author}</p>
+            <p className="text-sm ">by {author}</p>
           </div>
-          <div className="flex items-center gap-1 text-sm group-hover:text-white my-1">
+          <div className="flex items-center gap-1 text-sm my-1 relative z-10">
             <CloudDownload className="w-4 h-4" />
-            <span>Downloads 1000</span>
+            <p>Downloads 1000</p>
           </div>
         </div>
       </div>
