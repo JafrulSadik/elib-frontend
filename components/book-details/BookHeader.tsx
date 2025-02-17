@@ -1,21 +1,33 @@
-import {
-  BookMarked,
-  BookOpen,
-  Download,
-  Heart,
-  Share2,
-  Star,
-} from "lucide-react";
+import { getBook } from "@/lib/books";
+import { ApiResponse } from "@/types/ApiResponse";
+import { Book } from "@/types/Book";
+import { BookMarked, BookOpen, Download, Share2, Star } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import AddToFavouriteButton from "./AddToFavouriteButton";
 
-const BookHeader = () => {
+type Props = {
+  bookId: string;
+};
+
+const BookHeader = async (props: Props) => {
+  const { bookId } = props;
+  const response = (await getBook(bookId)) as ApiResponse<Book>;
+
+  const book = response.code === 200 ? response.data : null;
+
+  if (!book) return null;
+
   return (
     <div className="bg-[#3D261C]/80 backdrop-blur-lg rounded-2xl p-12 mb-8">
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Book Cover */}
         <div className="lg:w-1/3">
           <div className="relative group">
-            <img
-              src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=600"
+            <Image
+              src={book?.cover}
+              height={600}
+              width={400}
               alt="Book Cover"
               className="w-full rounded-lg shadow-2xl transform transition duration-300"
             />
@@ -39,9 +51,9 @@ const BookHeader = () => {
           </div>
 
           <h1 className="text-4xl font-bold text-[#C5A572] mb-2">
-            The Young Wizard
+            {book?.title}
           </h1>
-          <p className="text-xl text-gray-400 mb-6">by Aaron Ling</p>
+          <p className="text-xl text-gray-400 mb-6">by {book?.author?.name}</p>
 
           <div className="flex items-center space-x-6 mb-8">
             <div className="flex items-center">
@@ -66,7 +78,10 @@ const BookHeader = () => {
                 <li>Pages: 384</li>
                 <li>Language: English</li>
                 <li>Publisher: Magic Press</li>
-                <li>Publication Date: March 2025</li>
+                <li>
+                  Publication Date:{" "}
+                  {new Date(book?.createdAt).toLocaleDateString()}
+                </li>
               </ul>
             </div>
             <div className="bg-[#2B1810] rounded-xl p-6">
@@ -87,13 +102,14 @@ const BookHeader = () => {
               <BookOpen className="w-5 h-5" />
               <span>Read Now</span>
             </button>
-            <button className="flex-1 px-6 py-3 bg-[#2B1810] text-[#C5A572] rounded-lg border border-[#C5A572] hover:bg-[#3D261C] transition duration-300 flex items-center justify-center space-x-2">
+            <Link
+              href={book?.file}
+              className="flex-1 px-6 py-3 bg-[#2B1810] text-[#C5A572] rounded-lg border border-[#C5A572] hover:bg-[#3D261C] transition duration-300 flex items-center justify-center space-x-2"
+            >
               <Download className="w-5 h-5" />
               <span>Download</span>
-            </button>
-            <button className="px-6 py-3 bg-[#2B1810] text-[#C5A572] rounded-lg border border-[#C5A572] hover:bg-[#3D261C] transition duration-300 flex items-center justify-center space-x-2">
-              <Heart className="w-5 h-5" />
-            </button>
+            </Link>
+            <AddToFavouriteButton />
             <button className="px-6 py-3 bg-[#2B1810] text-[#C5A572] rounded-lg border border-[#C5A572] hover:bg-[#3D261C] transition duration-300 flex items-center justify-center space-x-2">
               <Share2 className="w-5 h-5" />
             </button>
