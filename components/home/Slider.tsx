@@ -6,7 +6,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ArrowRight, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import DotButton, { useDotButton } from "./DotButtonsSlider";
 import "./slide.css";
 
 const slides = [
@@ -45,17 +45,8 @@ const Slider = () => {
     Fade(),
   ]);
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    emblaApi.on("select", onSelect);
-  }, [emblaApi, onSelect]);
+  const { onDotButtonClick, scrollSnaps, selectedIndex } =
+    useDotButton(emblaApi);
 
   return (
     <section className="relative overflow-hidden mb-8">
@@ -68,9 +59,9 @@ const Slider = () => {
                 alt={slide.title}
                 height={800}
                 width={1920}
-                className="w-full h-[450px] object-cover"
+                className="w-full h-[500px] object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#2B1810]/90 to-[#2B1810]/60 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#2B1810]/80 to-[#2B1810]/50 z-10"></div>
 
               <div className="absolute inset-0 flex items-center  px-14 z-30">
                 <div className="max-w-2xl">
@@ -101,17 +92,16 @@ const Slider = () => {
               </div>
 
               {/* Pagination Dots */}
-
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-40">
-                {slides.map((_, index) => (
-                  <button
+                {scrollSnaps.map((_, index) => (
+                  <DotButton
                     key={index}
                     className={`w-2 h-2 rounded-full transition-all duration-300 ${
                       selectedIndex === index
                         ? "w-8 bg-[#C5A572]"
                         : "bg-white/50 hover:bg-white"
                     }`}
-                    onClick={() => emblaApi && emblaApi.scrollTo(index)}
+                    onClick={() => onDotButtonClick(index)}
                   />
                 ))}
               </div>
