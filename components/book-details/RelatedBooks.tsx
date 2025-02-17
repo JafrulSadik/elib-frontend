@@ -1,4 +1,5 @@
 import { ChevronRight, Star } from "lucide-react";
+import Image from "next/image";
 
 const relatedBooks = [
   {
@@ -41,9 +42,11 @@ const RelatedBooks = () => {
               key={index}
               className="flex space-x-4 border hover:border-[#C5A572]/30 hover:bg-[#2B1810]/30 transition duration-300 border-transparent p-4 rounded-xl"
             >
-              <img
+              <Image
                 src={book.image}
                 alt={book.title}
+                height={112}
+                width={80}
                 className="w-20 h-28 object-cover rounded-md"
               />
               <div>
