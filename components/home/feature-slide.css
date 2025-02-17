@@ -1,0 +1,18 @@
+.featured-embala {
+  --slide-spacing: 1rem;
+  --slide-size: 50%;
+}
+
+.featured-embla__viewport {
+  overflow: hidden;
+  border-radius: 10px;
+}
+.featured-embla__container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.featured-embla__slide {
+  flex: 0 0 50%;
+  height: 50%;
+}

@@ -1,5 +1,6 @@
 import AllBooks from "@/components/home/AllBooks";
 import Categories from "@/components/home/Categories";
+import FeaturedWriter from "@/components/home/FeaturedWriter";
 import LatestBooks from "@/components/home/LatestBooks";
 import PopularBooks from "@/components/home/PopularBooks";
 import Slider from "@/components/home/Slider";
@@ -17,6 +18,7 @@ export default async function Home() {
         <LatestBooks />
         <Categories />
         <PopularBooks />
+        <FeaturedWriter />
         <TopWriters />
       </div>
     </div>
