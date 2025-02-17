@@ -35,3 +35,16 @@ export const getPopularBooks = async () => {
     };
   }
 };
+
+export const getBook = async (id: string) => {
+  try {
+    const response = (await fetchData(`/books/${id}`)) as ApiResponse<Book>;
+    return response;
+  } catch (err) {
+    const error = err as Error;
+    return {
+      code: "500",
+      message: error.message,
+    };
+  }
+};
