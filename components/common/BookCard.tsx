@@ -10,6 +10,7 @@ type Props = {
   title: string;
   author: string;
   rating: number;
+  bookId: string;
 };
 
 const generateHexColor = (r: number, g: number, b: number) => {
@@ -20,7 +21,7 @@ const generateHexColor = (r: number, g: number, b: number) => {
   return `bg-[#${hexR}${hexG}${hexB}]`;
 };
 
-const BookCard = ({ image, title, author, rating }: Props) => {
+const BookCard = ({ bookId, image, title, author, rating }: Props) => {
   const { data: color } = useColor(image, "rgbArray", {
     crossOrigin: "anonymous",
   });
@@ -45,7 +46,7 @@ const BookCard = ({ image, title, author, rating }: Props) => {
 
   return (
     <Link
-      href={"/books/1"}
+      href={`/books/${bookId}`}
       className="group relative bg-transparent rounded-xl overflow-hidden cursor-pointer hover:shadow-2xl transition-all duration-500 hover:-translate-y-1"
     >
       <div

@@ -36,11 +36,11 @@ const RelatedBooks = () => {
           </button>
         </div>
 
-        <div className="">
+        <div className="space-y-4">
           {relatedBooks.map((book, index) => (
             <div
               key={index}
-              className="flex space-x-4 border hover:border-[#C5A572]/30 hover:bg-[#2B1810]/30 transition duration-300 border-transparent p-4 rounded-xl"
+              className="flex space-x-4 bg-[#2B1810]/50 border hover:border-[#C5A572]/30 hover:bg-[#2B1810]/30 transition duration-300 border-transparent p-4 rounded-xl"
             >
               <Image
                 src={book.image}

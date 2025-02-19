@@ -13,6 +13,7 @@ const AllBooks = () => {
         {[1, 2, 3, 4, 5].map((i) => (
           <BookCard
             key={i}
+            bookId="1"
             image={`https://images.unsplash.com/photo-${
               i === 1
                 ? "1544947950-fa07a98d237f"

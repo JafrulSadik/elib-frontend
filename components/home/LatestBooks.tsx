@@ -24,6 +24,7 @@ const LatestBooks = async () => {
           books?.map((book, i) => (
             <BookCard
               key={i}
+              bookId={book?._id?.toString()}
               image={book?.cover}
               title={book?.title}
               author={book?.author?.name}
