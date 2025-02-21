@@ -2,13 +2,26 @@
 import { useState } from "react";
 import EditableMenu from "./EditableMenu";
 
+type EditType = {
+  field: string;
+  value: string;
+};
+
 const ProfileInfo = () => {
+  const [isEditing, setIsEditing] = useState<EditType>({
+    field: "",
+    value: "",
+  });
   const [profile, setProfile] = useState({
     fullName: "Prity Rahman",
     email: "misuk@gmail.com",
     about:
-      "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.",
+      "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
   });
+
+  const handleSave = (key: keyof typeof profile, newValue: string) => {
+    setProfile((prev) => ({ ...prev, [key]: newValue }));
+  };
 
   return (
     <div className="space-y-6">
@@ -16,7 +29,9 @@ const ProfileInfo = () => {
         field="Full Name"
         type="text"
         value={profile.fullName}
-        onChangeValue={(value) => setProfile({ ...profile, fullName: value })}
+        isEditing={isEditing}
+        onEdit={setIsEditing}
+        onSave={(newValue) => handleSave("fullName", newValue)}
       >
         <p className="text-gray-300 rounded-lg">{profile.fullName}</p>
       </EditableMenu>
@@ -30,7 +45,9 @@ const ProfileInfo = () => {
         field="About"
         type="textarea"
         value={profile.about}
-        onChangeValue={(value) => setProfile({ ...profile, about: value })}
+        isEditing={isEditing}
+        onEdit={setIsEditing}
+        onSave={(newValue) => handleSave("about", newValue)}
       >
         <p className="text-gray-300 rounded-lg">{profile.about}</p>
       </EditableMenu>
