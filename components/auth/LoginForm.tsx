@@ -25,11 +25,6 @@ export const loginSchema = z.object({
 // Infer TypeScript type from schema
 export type LoginFormData = z.infer<typeof loginSchema>;
 
-type FormData = {
-  email: string;
-  password: string;
-};
-
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -49,7 +44,7 @@ const LoginForm = () => {
     setShowPassword((prev) => !prev);
   };
 
-  const onSubmit = async (formData: FormData) => {
+  const onSubmit = async (formData: LoginFormData) => {
     setLoading(true);
     setError("root.random", { message: "" });
 
@@ -71,9 +66,6 @@ const LoginForm = () => {
       }
     } catch (err) {
       const error = err as Error;
-
-      console.log(error);
-
       setError("root.random", { message: "Something went wrong." });
     }
     setLoading(false);

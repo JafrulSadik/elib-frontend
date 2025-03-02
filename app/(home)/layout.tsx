@@ -1,4 +1,3 @@
-import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/Navbar";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
@@ -21,7 +20,7 @@ export default function RootLayout({
           <Navbar />
         </SessionProvider>
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );

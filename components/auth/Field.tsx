@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 type FieldProps = {
   children: React.ReactNode;
-  error?: { message?: string };
+  error?: string;
 };
 
 const Field = ({ children, error }: FieldProps) => {
@@ -16,7 +16,7 @@ const Field = ({ children, error }: FieldProps) => {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="text-red-500 text-sm mt-2"
         >
-          {error.message}
+          {error}
         </motion.p>
       )}
     </div>
