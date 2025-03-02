@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth/auth";
+import { Book, Heart, Plus, User } from "lucide-react";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -7,45 +8,37 @@ type Props = {
 };
 
 const menuItems = [
-  { label: "My Profile", path: "/profile" },
-  { label: "Favourite", path: "/favourites" },
-  { label: "My Books", path: "/my-books" },
-  { label: "Add a book", path: "/add-book" },
+  { label: "My Profile", path: "/dashboard/profile", icon: User },
+  { label: "Favourite", path: "/dashboard/favourites", icon: Heart },
+  { label: "My Books", path: "/dashboard/my-books", icon: Book },
+  { label: "Add a book", path: "/dashboard/add-book", icon: Plus },
 ];
 
 const DashboardLayout = async ({ children }: Props) => {
   const session = await auth();
   return (
-    <div className="py-6 bg-bgPrimary">
-      <div className="container mx-auto  text-textPrimary rounded-xl">
-        <div className="flex gap-6">
-          {/* Sidebar */}
-          <div className="w-64 bg-bgSecondary rounded-lg p-4 text-textPrimary h-fit">
-            <div className="mb-6 text-center">
-              <h2 className="text-lg font-semibold">
-                Hi, {session?.user?.name}
-              </h2>
-            </div>
+    <div className="w-full bg-bgPrimary">
+      <div className="flex container w-full">
+        {/* Sidebar */}
+        <aside className="w-64 border-r border-[#4a372a] min-h-[calc(100vh-4rem)]">
+          <div className="p-4">
+            <h2 className="text-[#DEB887] font-semibold mb-4">Hi, User</h2>
             <nav className="space-y-2">
               {menuItems.map((item) => (
                 <Link
                   key={item.path}
                   href={item.path}
-                  className={`block px-4 py-2 rounded-lg ${
-                    "/profile" === item.path
-                      ? "bg-bgPrimary/60 text-gray-400"
-                      : "text-gray-600 hover:text-gray-400 hover:bg-bgPrimary/30"
-                  }`}
+                  className="flex items-center justify-start rounded-md text-[#C4A484] py-2 px-4 hover:bg-bgSecondary/60 hover:text-textPrimary"
                 >
+                  <item.icon className="mr-2 h-4 w-4" />
                   {item.label}
                 </Link>
               ))}
             </nav>
           </div>
-
-          {/* Main Content */}
-          <div className="flex-1 bg-bgSecondary rounded-lg">{children}</div>
-        </div>
+        </aside>
+        {/* Main content */}
+        <div className="flex-1 p-4">{children}</div>
       </div>
     </div>
   );
