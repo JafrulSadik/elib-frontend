@@ -3,7 +3,7 @@ import AddBookForm from "@/components/add-book/AddBookForm";
 const AddBookPage = () => {
   return (
     <div className="my-12 w-full">
-      <h1 className="text-2xl font-bold text-[#C5A572] mb-2 text-center">
+      <h1 className="text-3xl font-bold text-[#C5A572] mb-2 text-center">
         Add a book
       </h1>
 

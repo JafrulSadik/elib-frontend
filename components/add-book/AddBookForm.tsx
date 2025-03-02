@@ -9,7 +9,7 @@ import FileInputField from "./FileInputField";
 import TextInputField from "./TextInputField";
 
 const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 3; // 3MB
-const ACCEPTED_IMAGE_FILE_TYPES = ["image/png"];
+const ACCEPTED_IMAGE_FILE_TYPES = ["image/png", "image/jpeg", "image/jpg"];
 
 const MAX_BOOK_FILE_UPLOAD_SIZE = 1024 * 1024 * 10; // 3MB
 const ACCEPTED_BOOK_FILE_TYPES = ["application/pdf"];
@@ -19,27 +19,25 @@ export const bookSchema = z.object({
   genre: z.string().min(1, { message: "Genre is required" }),
   description: z.string().min(1, { message: "Description is required" }),
   cover: z
-    .instanceof(FileList, { message: "Cover image is required" })
-    .refine((file) => {
-      return !!file;
-    }, "File is required")
-    .refine((file) => {
-      return file[0]?.size <= MAX_IMAGE_UPLOAD_SIZE;
-    }, "File size must be less than 3MB")
-    .refine((file) => {
-      return ACCEPTED_IMAGE_FILE_TYPES.includes(file[0]?.type);
-    }, "File must be a PNG, JPEG or JPG"),
+    .custom<FileList>((file) => file instanceof FileList && file.length > 0, {
+      message: "Cover image is required",
+    })
+    .refine((file) => file[0]?.size <= MAX_IMAGE_UPLOAD_SIZE, {
+      message: "File size must be less than 3MB",
+    })
+    .refine((file) => ACCEPTED_IMAGE_FILE_TYPES.includes(file[0]?.type), {
+      message: "File must be a PNG, JPEG or JPG",
+    }),
   file: z
-    .instanceof(FileList, { message: "Book file is required" })
-    .refine((file) => {
-      return !!file;
-    }, "File is required")
-    .refine((file) => {
-      return file[0]?.size <= MAX_BOOK_FILE_UPLOAD_SIZE;
-    }, "File size must be less than 10MB")
-    .refine((file) => {
-      return ACCEPTED_BOOK_FILE_TYPES.includes(file[0]?.type);
-    }, "File must be a PDF"),
+    .custom<FileList>((file) => file instanceof FileList && file.length > 0, {
+      message: "Book file is required",
+    })
+    .refine((file) => file[0]?.size <= MAX_BOOK_FILE_UPLOAD_SIZE, {
+      message: "File size must be less than 10MB",
+    })
+    .refine((file) => ACCEPTED_BOOK_FILE_TYPES.includes(file[0]?.type), {
+      message: "File must be a PDF",
+    }),
 });
 
 // Infer TypeScript type from schema
@@ -82,7 +80,7 @@ const AddBookForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
       <TextInputField
         label="Book Title"
         placeholder="Enter book title"
