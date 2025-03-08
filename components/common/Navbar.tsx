@@ -13,8 +13,8 @@ const Navbar = () => {
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showRegister, setShowRegister] = useState<boolean>(false);
   const [showSearch, setShowSearch] = useState<boolean>(false);
-  const session = useSession();
-  const user = session?.data?.user;
+  const { data: loggedInUser } = useSession();
+  const user = loggedInUser?.user;
 
   return (
     <div>
@@ -57,7 +57,7 @@ const Navbar = () => {
           {user && (
             <div className="flex items-center space-x-4">
               <Link href="/profile">
-                <ProfileImg />
+                <ProfileImg image={user?.profileImg} />
               </Link>
               <p>{user?.name}</p>
             </div>

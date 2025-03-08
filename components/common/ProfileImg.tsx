@@ -1,10 +1,14 @@
 import NoImage from "@/public/assets/no-profile.png";
 import Image from "next/image";
 
-const ProfileImg = () => {
+type Props = {
+  image?: string;
+};
+
+const ProfileImg = ({ image }: Props) => {
   return (
     <Image
-      src={NoImage}
+      src={image || NoImage}
       height={100}
       width={100}
       alt="Profile Image"

@@ -1,4 +1,5 @@
 "use client";
+import { User } from "@/types/User";
 import { useState } from "react";
 import EditableMenu from "./EditableMenu";
 
@@ -7,16 +8,19 @@ type EditType = {
   value: string;
 };
 
-const ProfileInfo = () => {
+type Props = {
+  user?: User;
+};
+
+const ProfileInfo = ({ user }: Props) => {
   const [isEditing, setIsEditing] = useState<EditType>({
     field: "",
     value: "",
   });
   const [profile, setProfile] = useState({
-    fullName: "Prity Rahman",
-    email: "misuk@gmail.com",
-    about:
-      "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.",
+    name: user?.name,
+    email: user?.email,
+    about: user?.about,
   });
 
   const handleSave = (key: keyof typeof profile, newValue: string) => {
@@ -28,28 +32,28 @@ const ProfileInfo = () => {
       <EditableMenu
         field="Full Name"
         type="text"
-        value={profile.fullName}
+        value={profile?.name || ""}
         isEditing={isEditing}
         onEdit={setIsEditing}
-        onSave={(newValue) => handleSave("fullName", newValue)}
+        onSave={(newValue) => handleSave("name", newValue)}
       >
-        <p className="text-gray-300 rounded-lg">{profile.fullName}</p>
+        <p className="text-gray-300 rounded-lg">{profile?.name}</p>
       </EditableMenu>
 
       <div>
         <label className="text-[#C5A572] mb-2">Email</label>
-        <p className="text-gray-300">{profile.email}</p>
+        <p className="text-gray-300">{profile?.email}</p>
       </div>
 
       <EditableMenu
         field="About"
         type="textarea"
-        value={profile.about}
+        value={profile?.about || ""}
         isEditing={isEditing}
         onEdit={setIsEditing}
         onSave={(newValue) => handleSave("about", newValue)}
       >
-        <p className="text-gray-300 rounded-lg">{profile.about}</p>
+        <p className="text-gray-300 rounded-lg">{profile?.about}</p>
       </EditableMenu>
     </div>
   );
