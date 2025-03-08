@@ -18,9 +18,10 @@ export default function RootLayout({
       <body>
         <SessionProvider>
           <Navbar />
+
+          {children}
+          {/* <Footer /> */}
         </SessionProvider>
-        {children}
-        {/* <Footer /> */}
       </body>
     </html>
   );
