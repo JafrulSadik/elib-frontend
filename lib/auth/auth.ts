@@ -36,6 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.accessToken = user.accessToken;
         token.id = user.id;
         token.role = user.role;
+        token.profileImg = user.profileImg;
       }
 
       // Auto-refresh token if expired
@@ -46,9 +47,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     session({ session, token }) {
+      console.log(session);
       session.accessToken = token.accessToken as string | undefined;
       session.user.id = token.id as string;
       session.user.role = token.role as "admin" | "user";
+      session.user.profileImg = token.profileImg as string | "";
       return session;
     },
   },
