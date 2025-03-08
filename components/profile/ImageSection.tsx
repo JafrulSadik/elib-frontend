@@ -14,7 +14,7 @@ type Props = {
 
 const ImageSection = ({ image }: Props) => {
   const [selectedImage, setSelectedImage] = useState<string | undefined>(image);
-  const { data: loggedInUser, update } = useSession();
+  const { data: session, update } = useSession();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleImageClick = () => {
@@ -24,51 +24,72 @@ const ImageSection = ({ image }: Props) => {
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const file = event.target.files?.[0];
-    const filename = nanoid();
+    const file = event.target?.files?.[0];
 
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
+    if (!file) return;
 
-      const { data, error } = await supabase.storage
-        .from("covers")
-        .upload(
-          `${filename}.${fileInputRef?.current?.name.split(".").pop()}`,
-          file
-        );
+    const fileExt = file.name.split(".").pop();
+    const filename = `${nanoid()}.${fileExt}`;
+    const imageUrl = URL.createObjectURL(file);
 
-      if (error) {
-        alert("Something went wrong : ");
-      } else {
-        const { data: uploadImg } = await supabase.storage
-          .from("covers")
-          .getPublicUrl(data?.path);
-        setSelectedImage(uploadImg?.publicUrl);
+    // Show temporary preview
+    setSelectedImage(imageUrl);
 
-        await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${loggedInUser?.accessToken}`,
-          },
-          body: JSON.stringify({
-            field: "profileImg",
-            value: uploadImg?.publicUrl,
-          }),
-        });
+    // Upload to Supabase
+    const { data, error } = await supabase.storage
+      .from("elib/profile-images")
+      .upload(filename, file);
 
-        update({
-          ...loggedInUser,
-          user: {
-            ...loggedInUser?.user,
-            profileImg: uploadImg?.publicUrl,
-          },
-        });
-
-        alert("File Uploaded Successfully.");
-      }
+    if (error) {
+      console.error("Upload Error:", error.message);
+      alert("Image upload failed. Please try again.");
+      return;
     }
+
+    // Get Public URL
+    const { data: uploadImg } = await supabase.storage
+      .from("elib/profile-images")
+      .getPublicUrl(data.path);
+
+    const uploadedImageUrl = uploadImg?.publicUrl;
+    if (!uploadedImageUrl) {
+      alert("Failed to retrieve uploaded image.");
+      return;
+    }
+
+    setSelectedImage(uploadedImageUrl);
+
+    // Update user profile on backend
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/users`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+        body: JSON.stringify({
+          field: "profileImg",
+          value: uploadedImageUrl,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      alert("Failed to update profile image.");
+      return;
+    }
+
+    // Update NextAuth session
+    update({
+      ...session,
+      user: {
+        ...session?.user,
+        profileImg: uploadedImageUrl,
+      },
+    });
+
+    alert("Profile image updated successfully.");
   };
 
   return (

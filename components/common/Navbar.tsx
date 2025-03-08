@@ -56,10 +56,13 @@ const Navbar = () => {
 
           {user && (
             <div className="flex items-center space-x-4">
-              <Link href="/profile">
+              <Link
+                href="/dashboard/profile"
+                className="flex gap-2 items-center"
+              >
                 <ProfileImg image={user?.profileImg} />
+                <p>{user?.name}</p>
               </Link>
-              <p>{user?.name}</p>
             </div>
           )}
         </div>
