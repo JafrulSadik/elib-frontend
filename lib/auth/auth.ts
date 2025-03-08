@@ -47,7 +47,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     session({ session, token }) {
-      console.log(session);
       session.accessToken = token.accessToken as string | undefined;
       session.user.id = token.id as string;
       session.user.role = token.role as "admin" | "user";
