@@ -10,6 +10,7 @@ declare module "next-auth" {
       email: string;
       role: "admin" | "user";
       profileImg?: string;
+      about?: string;
     };
   }
 
@@ -19,6 +20,7 @@ declare module "next-auth" {
     email: string;
     role: "admin" | "user";
     profileImg?: string;
+    about?: string;
     accessToken: string;
     expiresAt: Date;
   }
