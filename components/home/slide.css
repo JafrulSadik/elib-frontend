@@ -1,6 +1,6 @@
 .embla__viewport {
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 .embla__container {
   display: flex;
