@@ -5,38 +5,38 @@ import { User } from "@/types/User";
 import { motion } from "framer-motion";
 import { Loader, Pencil } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { useState } from "react";
+
+type EditType = {
+  field: string;
+  value: string;
+} | null;
 
 type Props = {
   type: "text" | "textarea";
   value: string;
   field: string;
-  isEditing: EditType;
-  onEdit: (value: EditType) => void;
+  label: string;
+  edit: EditType;
+  onEdit: (editType: EditType) => void;
+  onUpdate: () => void;
   children: React.ReactNode;
-  onSave: (newValue: string) => void;
 };
 
-type EditType = {
-  field: string;
-  value: string;
-};
-
-const EditableMenu: FC<Props> = ({
+const EditableMenu = ({
   type,
   value,
   field,
-  isEditing,
+  label,
+  edit,
   onEdit,
+  onUpdate,
   children,
-  onSave,
-}) => {
+}: Props) => {
+  const { data: session } = useSession();
+
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
-  const session = useSession();
-  const router = useRouter();
 
   const handleEdit = () => {
     onEdit({ field, value });
@@ -56,28 +56,30 @@ const EditableMenu: FC<Props> = ({
   };
 
   const handleSave = async () => {
-    if (!validateInput(isEditing.value)) return;
+    if (!validateInput(edit?.value || "")) return;
     setLoading(true);
     setError("");
+
+    const updatedData = {
+      field,
+      value: edit?.value.trim() || "",
+    };
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${session?.data?.accessToken}`,
+          Authorization: `Bearer ${session?.accessToken}`,
         },
-        body: JSON.stringify({
-          field: isEditing.field === "About" ? "about" : "name",
-          value: isEditing?.value.trim(),
-        }),
+        body: JSON.stringify(updatedData),
       });
 
       const data = (await res.json()) as ApiResponse<User>;
 
       if (!res.ok) throw new Error(data.message || "Failed to update profile");
-      onSave(isEditing.value.trim());
-      onEdit({ field: "", value: "" });
+
+      onUpdate();
     } catch (err) {
       const error = err as Error;
       setError(error.message);
@@ -101,25 +103,25 @@ const EditableMenu: FC<Props> = ({
   return (
     <div>
       <label className="flex items-center text-[#C5A572] mb-2">
-        {field}
+        {label}
         <button type="button" onClick={handleEdit} className="ml-2">
           <Pencil className="w-4 h-4 text-[#C5A572]" />
         </button>
       </label>
 
-      {isEditing.field === field ? (
+      {edit && edit.field === field ? (
         <>
           {type === "text" ? (
             <input
               type="text"
-              value={isEditing.value}
+              value={edit.value}
               autoFocus
               onChange={handleInputChange}
               className="w-full px-4 py-2 bg-bgSecondary/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C5A572]"
             />
           ) : (
             <textarea
-              value={isEditing.value}
+              value={edit.value}
               autoFocus
               onChange={handleInputChange}
               className="w-full px-4 py-2 bg-bgSecondary/60 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C5A572] h-32"
