@@ -19,7 +19,7 @@ const TextInputField = forwardRef<
 >(({ label, icon: Icon, error, type = "text", placeholder, ...props }, ref) => (
   <div>
     <label className="block text-[#C5A572] mb-2">{label}</label>
-    <div className="relative">
+    <div className="relative text-white">
       {type === "textarea" ? (
         <textarea
           ref={ref as React.Ref<HTMLTextAreaElement>}
@@ -39,16 +39,14 @@ const TextInputField = forwardRef<
           {...(props as HTMLAttributes<HTMLInputElement>)}
           placeholder={placeholder}
           className={clsx(
-            "w-full px-4 py-2 bg-bgSecondary text-white rounded-lg focus:outline-none focus:ring-2",
+            "w-full px-4 py-2  bg-bgSecondary rounded-lg focus:outline-none focus:ring-2",
             error
               ? "focus:ring-red-500 border border-red-500"
               : "focus:ring-[#C5A572]/50"
           )}
         />
       )}
-      {Icon && (
-        <Icon className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
-      )}
+      {Icon && <Icon className="absolute right-3 top-3.5 h-5 w-5 " />}
     </div>
 
     {error && (

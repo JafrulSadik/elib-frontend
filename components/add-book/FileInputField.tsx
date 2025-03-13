@@ -32,7 +32,11 @@ const FileInputField = forwardRef<HTMLInputElement, FileInputFieldProps>(
             <span className="px-3 py-2 rounded-md bg-bgSecondary text-textPrimary">
               {placeholder}
             </span>
-            <p className="text-gray-400 truncate">
+            <p
+              className={`${
+                !fileName ? "text-gray-400" : "text-white"
+              } truncate`}
+            >
               {!fileName ? "No file choosen" : fileName}
             </p>
           </label>
