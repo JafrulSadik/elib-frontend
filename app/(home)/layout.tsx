@@ -1,6 +1,7 @@
 import Navbar from "@/components/common/Navbar";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
+import { ToastContainer } from "react-toastify";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -18,10 +19,9 @@ export default function RootLayout({
       <body>
         <SessionProvider>
           <Navbar />
-
           {children}
-          {/* <Footer /> */}
         </SessionProvider>
+        <ToastContainer />
       </body>
     </html>
   );

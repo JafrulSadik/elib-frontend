@@ -5,11 +5,8 @@ import LatestBooks from "@/components/home/LatestBooks";
 import PopularBooks from "@/components/home/PopularBooks";
 import Slider from "@/components/home/Slider";
 import TopWriters from "@/components/home/TopWriters";
-import { auth } from "@/lib/auth/auth";
 
 export default async function Home() {
-  const session = await auth();
-
   return (
     <div className="min-h-screen bg-[#2B1810]">
       <div className="container mx-auto px-6 py-8">
