@@ -12,7 +12,7 @@ const ProfileImg = ({ image }: Props) => {
       height={100}
       width={100}
       alt="Profile Image"
-      className="text-[#C5A572] hover:text-[#D4B684] h-8 w-8 rounded-full ring-2 ring-[#C5A572]/50"
+      className="text-[#C5A572] hover:text-[#D4B684] h-8 w-8 rounded-full"
     />
   );
 };

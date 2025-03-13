@@ -1,21 +1,26 @@
 "use client";
 
+import { errorToast, successToast } from "@/lib/notify";
 import { supabase } from "@/lib/supabase";
 import NoImage from "@/public/assets/no-profile.png";
 import { Pencil } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import ProfileImageSkeleton from "../skeleton/ProfileImageSkeleton";
 
-type Props = {
-  image?: string;
-};
+const ImageSection = () => {
+  const { data: session, update, status } = useSession();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-const ImageSection = ({ image }: Props) => {
-  const [selectedImage, setSelectedImage] = useState<string | undefined>(image);
-  const { data: session, update } = useSession();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (session?.user?.profileImg) {
+      setSelectedImage(session?.user?.profileImg);
+    }
+  }, [session]);
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
@@ -32,17 +37,14 @@ const ImageSection = ({ image }: Props) => {
     const filename = `${nanoid()}.${fileExt}`;
     const imageUrl = URL.createObjectURL(file);
 
-    // Show temporary preview
     setSelectedImage(imageUrl);
 
-    // Upload to Supabase
     const { data, error } = await supabase.storage
       .from("elib/profile-images")
       .upload(filename, file);
 
     if (error) {
-      console.error("Upload Error:", error.message);
-      alert("Image upload failed. Please try again.");
+      errorToast(error.message);
       return;
     }
 
@@ -89,8 +91,10 @@ const ImageSection = ({ image }: Props) => {
       },
     });
 
-    alert("Profile image updated successfully.");
+    successToast("Profile image updated successfully.");
   };
+
+  if (status === "loading") return <ProfileImageSkeleton />;
 
   return (
     <div className="flex justify-center mb-8">
