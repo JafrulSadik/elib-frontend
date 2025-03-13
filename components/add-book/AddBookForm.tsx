@@ -1,6 +1,14 @@
 "use client";
 
+import { errorToast, successToast } from "@/lib/notify";
+import { supabase } from "@/lib/supabase";
+import { ApiResponse } from "@/types/ApiResponse";
+import { Book } from "@/types/Book";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
+import { nanoid } from "nanoid";
+import { useSession } from "next-auth/react";
+import { revalidatePath } from "next/cache";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -44,6 +52,8 @@ export const bookSchema = z.object({
 export type BookFormData = z.infer<typeof bookSchema>;
 
 const AddBookForm = () => {
+  const { data: session } = useSession();
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -51,14 +61,6 @@ const AddBookForm = () => {
     formState: { errors },
   } = useForm<BookFormData>({
     resolver: zodResolver(bookSchema),
-  });
-
-  const [bookData, setBookData] = useState({
-    title: "",
-    genre: "",
-    description: "",
-    coverImage: null,
-    bookFile: null,
   });
 
   const genres = [
@@ -75,8 +77,86 @@ const AddBookForm = () => {
     "Religion",
   ];
 
-  const onSubmit = (formData: BookFormData) => {
-    console.log(bookData);
+  const onSubmit = async (formData: BookFormData) => {
+    const coverImage = formData.cover?.[0];
+    const bookFile = formData.file?.[0];
+
+    const coverImageExt = coverImage.name.split(".").pop();
+    const coverImageName = `${nanoid()}.${coverImageExt}`;
+    const bookFileExt = bookFile.name.split(".").pop();
+    const bookFileName = `${nanoid()}.${bookFileExt}`;
+
+    setLoading(true);
+    // Upload to Supabase
+    const { data: coverImageData, error: coverImageError } =
+      await supabase.storage
+        .from("elib/cover-images")
+        .upload(coverImageName, coverImage);
+
+    if (coverImageError) {
+      console.error("Upload Error:", coverImageError.message);
+      alert("Book cover upload failed. Please try again.");
+      return;
+    }
+
+    const { data: bookFileData, error: bookFileError } = await supabase.storage
+      .from("elib/book-files")
+      .upload(bookFileName, bookFile);
+
+    if (bookFileError) {
+      alert("Book file upload failed. Please try again.");
+      return;
+    }
+
+    // Get Public URL
+    const { data: coverImagePublicUrl } = supabase.storage
+      .from("elib/cover-images")
+      .getPublicUrl(coverImageData.path);
+
+    const { data: bookFilePublicUrl } = supabase.storage
+      .from("elib/book-files")
+      .getPublicUrl(bookFileData.path);
+
+    const bookData = {
+      title: formData.title,
+      genreId: "66be64a4e29bc593c0abc019",
+      description: formData.description,
+      coverImageUrl: coverImagePublicUrl.publicUrl,
+      bookFileUrl: bookFilePublicUrl.publicUrl,
+    };
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/books`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session?.accessToken}`,
+          },
+          body: JSON.stringify(bookData),
+        }
+      );
+
+      if (!response.ok) {
+        console.log({ response });
+        throw new Error("Failed to add book");
+      }
+
+      const data = (await response.json()) as ApiResponse<Book>;
+
+      if (data.code !== 201) {
+        errorToast(data.message);
+        return;
+      }
+
+      successToast("Book added successfully");
+    } catch (err) {
+      const error = err as Error;
+      errorToast(error.message);
+    }
+    setLoading(false);
+    revalidatePath("/");
   };
 
   return (
@@ -88,18 +168,23 @@ const AddBookForm = () => {
         {...register("title")}
       />
 
-      <Field error={errors?.genre?.message}>
-        <label className="block text-[#C5A572] mb-2">Genre</label>
+      <Field error={errors?.genre?.message} label="Genre">
         <select
           defaultValue=""
-          className="w-full px-4 py-3 text-gray-400 bg-bgSecondary rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C5A572]/60"
+          className={`w-full px-4 py-3 bg-bgSecondary rounded-lg focus:outline-none focus:ring-2 ${
+            !errors?.genre ? "focus:ring-[#C5A572]/60" : "focus:ring-red-500"
+          }`}
           {...register("genre")}
         >
-          <option value="" defaultChecked disabled hidden>
-            Select a genre
+          <option className="text-gray-400" value="" disabled hidden>
+            -- Select a genre
           </option>
           {genres.map((genre) => (
-            <option key={genre} value={genre}>
+            <option
+              className="text-white bg-bgSecondary hover:bg-slate-950"
+              key={genre}
+              value={genre}
+            >
               {genre}
             </option>
           ))}
@@ -128,7 +213,7 @@ const AddBookForm = () => {
         label="Book File"
         accept="application/pdf"
         placeholder="Choose file"
-        id="bookFile"
+        id="file"
         {...register("file")}
         fileName={watch("file")?.[0]?.name}
         error={errors?.file?.message}
@@ -137,9 +222,11 @@ const AddBookForm = () => {
       <div className="py-5">
         <button
           type="submit"
-          className="w-full p-2 bg-[#C4A484]/90 text-bgPrimary rounded-lg hover:bg-[#C4A484]/70 transition duration-300"
+          disabled={loading}
+          className="w-full flex items-center justify-center gap-2 p-2 bg-[#C4A484]/90 text-bgPrimary rounded-lg hover:bg-[#C4A484]/70 transition duration-300"
         >
-          Add Book
+          {loading && <Loader className="size-4 animate-spin" />}
+          <span>Add Book</span>
         </button>
       </div>
     </form>
