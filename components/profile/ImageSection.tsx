@@ -55,7 +55,7 @@ const ImageSection = () => {
 
     const uploadedImageUrl = uploadImg?.publicUrl;
     if (!uploadedImageUrl) {
-      alert("Failed to retrieve uploaded image.");
+      errorToast("Failed to retrieve uploaded image.");
       return;
     }
 
@@ -102,7 +102,7 @@ const ImageSection = () => {
         <Image
           src={selectedImage || NoImage}
           alt="Profile"
-          className="w-32 h-32 rounded-full object-cover border-4 border-[#C5A572]"
+          className="w-34 h-34 rounded-full object-cover border-4 border-[#C5A572]"
           height={150}
           width={150}
           onClick={handleImageClick}
