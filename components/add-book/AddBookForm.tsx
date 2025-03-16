@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useSession } from "next-auth/react";
-import { revalidatePath } from "next/cache";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -126,20 +125,16 @@ const AddBookForm = () => {
     };
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/books`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${session?.accessToken}`,
-          },
-          body: JSON.stringify(bookData),
-        }
-      );
+      const response = await fetch("/api/books/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+        body: JSON.stringify(bookData),
+      });
 
       if (!response.ok) {
-        console.log({ response });
         throw new Error("Failed to add book");
       }
 
@@ -156,7 +151,6 @@ const AddBookForm = () => {
       errorToast(error.message);
     }
     setLoading(false);
-    revalidatePath("/");
   };
 
   return (
