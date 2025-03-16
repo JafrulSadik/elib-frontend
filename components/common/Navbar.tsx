@@ -13,7 +13,7 @@ const Navbar = () => {
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showRegister, setShowRegister] = useState<boolean>(false);
   const [showSearch, setShowSearch] = useState<boolean>(false);
-  const { data: loggedInUser } = useSession();
+  const { data: loggedInUser, status } = useSession();
   const user = loggedInUser?.user;
 
   return (
@@ -37,7 +37,8 @@ const Navbar = () => {
               <Search className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
             </div>
           </div>
-          {!user && (
+
+          {!user && status === "unauthenticated" && (
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => setShowLogin(true)}
@@ -54,7 +55,14 @@ const Navbar = () => {
             </div>
           )}
 
-          {user && (
+          {status === "loading" && (
+            <div className="flex items-center space-x-4">
+              <div className="h-9 w-16 bg-bgSecondary animate-pulse rounded-md" />
+              <div className="h-9 w-16 bg-bgSecondary animate-pulse rounded-md" />
+            </div>
+          )}
+
+          {user && status === "authenticated" && (
             <div className="flex items-center space-x-4">
               <Link
                 href="/dashboard/profile"
@@ -67,7 +75,9 @@ const Navbar = () => {
           )}
         </div>
       </nav>
+
       {showSearch && <SearchModal onShowSearch={setShowSearch} />}
+
       {showLogin && (
         <LoginModal
           onShowLogin={setShowLogin}
