@@ -61,15 +61,7 @@ const featuredWriter = {
   ],
 };
 
-type Props = {
-  currentBookSlide: number;
-  onCurrentBookSlide: (index: number) => void;
-};
-
-const FeaturedWriterBooks = ({
-  currentBookSlide,
-  onCurrentBookSlide,
-}: Props) => {
+const FeaturedWriterBooks = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       axis: "y",
@@ -86,7 +78,7 @@ const FeaturedWriterBooks = ({
   return (
     <div className="featured-embala relative py-4 rounded-xl">
       <div className="featured-embla__viewport p-2" ref={emblaRef}>
-        <div className="featured-embla__container flex flex-col max-h-[310px] gap-6">
+        <div className="featured-embla__container flex flex-col max-h-[310px] gap-8">
           {featuredWriter.books.map((book, index) => (
             <div
               className="featured-embla__slide bg-bgSecondary rounded-xl"
