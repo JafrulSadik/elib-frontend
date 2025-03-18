@@ -16,6 +16,10 @@ const config: Config = {
         textPrimary: "#C5A572",
         textSecondary: "",
       },
+      fontFamily: {
+        inter: ["var(--font-inter)"],
+        mono: ["var(--font-roboto-mono)"],
+      },
     },
   },
   plugins: [],
