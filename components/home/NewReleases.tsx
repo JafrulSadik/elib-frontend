@@ -1,7 +1,13 @@
 "use client";
+import { fetcher } from "@/lib/fetcher";
+import { ApiResponse } from "@/types/ApiResponse";
+import { Book } from "@/types/Book";
+import { PaginationType } from "@/types/Pagination";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback } from "react";
+import useSWR from "swr";
+import MiniCardSkeleton from "../skeleton/MiniCardSkeleton";
 import MiniCard from "./MiniCard";
 
 const books = [
@@ -33,7 +39,7 @@ const books = [
     reviews: 1245,
   },
   {
-    id: 1,
+    id: 4,
     title: "The Silent Patient",
     author: "Alex Michaelides",
     cover:
@@ -42,7 +48,7 @@ const books = [
     reviews: 2547,
   },
   {
-    id: 2,
+    id: 5,
     title: "Where the Crawdads Sing",
     author: "Delia Owens",
     cover:
@@ -51,7 +57,7 @@ const books = [
     reviews: 1893,
   },
   {
-    id: 3,
+    id: 6,
     title: "The Thursday Murder Club",
     author: "Richard Osman",
     cover:
@@ -60,7 +66,7 @@ const books = [
     reviews: 1245,
   },
   {
-    id: 1,
+    id: 7,
     title: "The Silent Patient",
     author: "Alex Michaelides",
     cover:
@@ -69,7 +75,7 @@ const books = [
     reviews: 2547,
   },
   {
-    id: 2,
+    id: 8,
     title: "Where the Crawdads Sing",
     author: "Delia Owens",
     cover:
@@ -78,7 +84,7 @@ const books = [
     reviews: 1893,
   },
   {
-    id: 1,
+    id: 9,
     title: "The Silent Patient",
     author: "Alex Michaelides",
     cover:
@@ -87,7 +93,7 @@ const books = [
     reviews: 2547,
   },
   {
-    id: 2,
+    id: 9,
     title: "Where the Crawdads Sing",
     author: "Delia Owens",
     cover:
@@ -152,6 +158,17 @@ const books = [
 ];
 
 const NewReleases = () => {
+  const {
+    data: bookResponse,
+    error,
+    isLoading,
+  } = useSWR<ApiResponse<Book[], PaginationType>>(
+    "http://localhost:5000/api/v2/books/latest?limit=10",
+    (url: string) => fetcher<Book[], PaginationType>(url) // Passing the type
+  );
+
+  const books = bookResponse?.data ?? [];
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
     dragFree: false,
@@ -167,48 +184,55 @@ const NewReleases = () => {
   }, [emblaApi]);
 
   return (
-    <section className="my-12">
-      <div className="container mx-auto">
-        <div className="flex items-center justify-between my-6 text-textPrimary">
-          <h2 className="hidden text-textPrimary md:contents text-2xl font-bold">
-            New Release Books
+    <section className="py-6 lg:py-8">
+      <div className="container w-[90%] md:w-full space-y-4 md:space-y-8">
+        <div className="flex items-center justify-between text-textPrimary">
+          <h2 className=" text-textPrimary text-lg  md:text-2xl font-bold">
+            New Release <span className="hidden md:contents">Books</span>
           </h2>
-          <div className="flex gap-2">
+          <div className="flex gap-1 md:gap-2">
             <button
               onClick={scrollPrev}
-              className="hidden md:flex justify-center items-center size-8  text-textPrimary/40 bg-bgSecondary  rounded-full border-2 border-textPrimary/20 hover:border-textPrimary/40 hover:text-textPrimary/60"
+              className="flex justify-center items-center size-6 md:size-8 transition-all duration-300  text-textPrimary/40 bg-bgSecondary  rounded-full border-2 border-textPrimary/20 hover:border-textPrimary/40 hover:text-textPrimary/60"
             >
-              <ChevronLeft className="size-5" />
+              <ChevronLeft className="size-4 md:size-5" />
             </button>
 
             <button
               onClick={scrollNext}
-              className="hidden md:flex justify-center items-center size-8  text-textPrimary/40 bg-bgSecondary hover:text-gray-400 rounded-full border-2 border-textPrimary/20 hover:border-textPrimary/40 hover:text-textPrimary/60"
+              className="flex justify-center items-center size-6 md:size-8 transition-all duration-300  text-textPrimary/40 bg-bgSecondary hover:text-gray-400 rounded-full border-2 border-textPrimary/20 hover:border-textPrimary/40 hover:text-textPrimary/60"
             >
-              <ChevronRight className="size-5" />
+              <ChevronRight className="size-4 md:size-5" />
             </button>
           </div>
         </div>
 
         {/* Carousel */}
-        <div className="relative my-5 flex items-center">
+        <div className="relative my-4 md:my-5 flex justify-center items-center">
           <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex gap-3">
-              {books.map((book) => (
-                <MiniCard key={book.id} {...book} />
-              ))}
+            <div className="flex gap-2 md:gap-3">
+              {!isLoading
+                ? books.map((book, i) => (
+                    <MiniCard
+                      key={book?._id}
+                      title={book?.title}
+                      cover={book?.cover}
+                    />
+                  ))
+                : Array(10)
+                    .fill(0)
+                    .map((_, i) => <MiniCardSkeleton key={i} />)}
             </div>
           </div>
         </div>
 
         {/* Button */}
-        <div className="flex justify-center my-10">
-          <button className="relative px-6 py-3 rounded-md bg-bgSecondary font-semibold text-gray-300 overflow-hidden group">
+        <div className="flex justify-center pt-2 mt-5 md:mt-0">
+          <button className="relative flex items-center justify-center px-2 py-2 md:px-6 md:py-3 rounded-md bg-bgSecondary font-semibold text-gray-300 overflow-hidden group">
             {/* Animated Background */}
-            <span className="absolute inset-0 bg-textPrimary transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></span>
+            <span className="absolute  inset-0 bg-textPrimary transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></span>
 
-            {/* Button Text */}
-            <span className="relative text-[#C5A572] z-10 tracking-wide transition-colors duration-500  group-hover:text-bgPrimary">
+            <span className="relative text-textPrimary z-10 tracking-wide transition-colors duration-500 text-xs md:text-base  group-hover:text-bgPrimary">
               See all new releases
             </span>
           </button>
