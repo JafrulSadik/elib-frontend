@@ -65,12 +65,12 @@ export const bookCategories = [
 
 const Categories = () => {
   return (
-    <section className="my-12">
-      <div className="container mx-auto">
-        <h2 className="text-2xl font-bold text-[#C5A572] mb-8">
+    <section className="py-10 md:py-16">
+      <div className="container w-[90%] md:w-full">
+        <h2 className="text-xl md:text-3xl text-center font-bold text-[#C5A572] mb-10">
           Choose Your Category
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-10">
+        <div className="grid gap-5 md:gap-10 grid-cols-[repeat(auto-fit,minmax(130px,1fr))] md:grid-cols-4 lg:grid-cols-5">
           {bookCategories.map((category) => (
             <CategoryCard
               key={category.id}
