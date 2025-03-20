@@ -5,7 +5,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import { CloudDownload, Star } from "lucide-react";
 import Image from "next/image";
 import { useDotButton } from "./DotButtonsSlider";
-import "./feature-slide.css";
 
 const featuredWriter = {
   name: "Sarah J. Anderson",
@@ -76,12 +75,12 @@ const FeaturedWriterBooks = () => {
     useDotButton(emblaApi);
 
   return (
-    <div className="featured-embala relative py-4 rounded-xl">
-      <div className="featured-embla__viewport p-2" ref={emblaRef}>
-        <div className="featured-embla__container flex flex-col max-h-[310px] gap-8">
+    <div className="relative md:py-4 rounded-xl">
+      <div className="overflow-hidden rounded-xl p-2" ref={emblaRef}>
+        <div className=" flex flex-col max-h-[270px] lg:max-h-[310px] gap-3 md:gap-5">
           {featuredWriter.books.map((book, index) => (
             <div
-              className="featured-embla__slide bg-bgSecondary rounded-xl"
+              className="flex-[0_0_50%] h-1/2 bg-bgSecondary rounded-md md:rounded-xl"
               key={index}
             >
               <div className="flex space-x-4 border hover:border-[#C5A572]/30 hover:bg-[#2B1810]/30 transition duration-300 border-transparent p-4 rounded-xl">
@@ -90,22 +89,26 @@ const FeaturedWriterBooks = () => {
                   alt={book.title}
                   height={112}
                   width={80}
-                  className="w-20 h-28 object-cover rounded-md"
+                  className="w-16 h-24 md:w-20 md:h-28 object-cover rounded-md"
                 />
                 <div>
-                  <h3 className="text-[#C5A572] hover:text-[#c5a572]/70 font-semibold mb-1">
+                  <h3 className="text-sm truncate md:text-base text-[#C5A572] hover:text-[#c5a572]/70 font-semibold mb-1">
                     {book.title}
                   </h3>
-                  <p className="text-gray-400 text-sm mb-2">by {book.genre}</p>
+                  <p className="text-gray-400 text-xs md:text-sm mb-2">
+                    by {book.genre}
+                  </p>
                   <div className="flex items-center">
-                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                    <span className="text-gray-400 text-sm ml-1">
+                    <Star className=" size-3 md:size-4 text-yellow-400 fill-current" />
+                    <span className="text-gray-400  ml-1 text-xs md:text-sm">
                       {book.rating}
                     </span>
                   </div>
                   <div className="flex items-center my-1">
-                    <CloudDownload className="w-4 h-4" />
-                    <span className="text-gray-400 text-sm ml-1">1000</span>
+                    <CloudDownload className="size-3 md:size-4 " />
+                    <span className="text-gray-400 ml-1 text-xs md:text-sm">
+                      1000
+                    </span>
                   </div>
                 </div>
               </div>

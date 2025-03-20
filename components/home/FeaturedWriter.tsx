@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Award, BookOpenCheck, Users } from "lucide-react";
+import { ArrowRight, BookOpenCheck, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import FeaturedWriterBooks from "./FeaturedWriterBooks";
@@ -81,57 +81,54 @@ const slides = [
 
 const FeaturedWriter = () => {
   return (
-    <section className="my-20 bg-textPrimary/5">
-      <h2 className="text-3xl pt-16 pb-10 text-center font-bold text-[#C5A572] ">
-        Featured Writer of the Month
-      </h2>
-      <div className="container rounded-lg mx-auto px-20 pb-8">
-        <div className="container mx-auto pb-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section className="md:py-12">
+      <div className="container w-[90%] md:w-full md:py-5">
+        <div className="rounded-md md:rounded-lg md:py-6 md:pb-12 bg-textPrimary/5 px-4 md:px-16">
+          <div className="text-center py-8 md:py-6">
+            <h2 className="text-xl md:text-3xl text-center  font-bold text-textPrimary">
+              Featured Writer of the Week
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-center">
             {/* Writer Info */}
-            <div className="space-y-5">
-              {/* <h2 className="text-2xl font-bold text-[#C5A572] mb-12">
-                Featured Writer of the Month
-              </h2> */}
-              <div className="flex items-start space-x-6">
+            <div className="space-y-5 px-3">
+              <div className="flex items-start  space-x-3 md:space-x-6">
                 <Image
                   src={featuredWriter.image}
                   alt={featuredWriter.name}
-                  className="size-28 rounded-xl object-cover"
+                  className="size-14 md:size-28 rounded-xl object-cover"
                   width={100}
                   height={100}
                 />
-                <div>
-                  <h3 className="text-2xl font-bold text-[#C5A572] mb-2">
+                <div className="space-y-1 md:space-y-2">
+                  <h3 className="text-base md:text-2xl font-bold text-[#C5A572]">
                     {featuredWriter.name}
                   </h3>
-                  <div className="flex space-x-6 mb-4">
+                  <div className="flex space-x-2 md:space-x-6 mb-4 text-xs md:text-sm">
                     <div className="flex items-center text-gray-400">
-                      <BookOpenCheck className="w-5 h-5 mr-2 text-[#C5A572]" />
+                      <BookOpenCheck className="size-3 md:size-5 mr-1 md:mr-2 text-[#C5A572]" />
                       <span>{featuredWriter.stats.books} Books</span>
                     </div>
                     <div className="flex items-center text-gray-400">
-                      <Users className="w-5 h-5 mr-2 text-[#C5A572]" />
+                      <Users className="size-3 md:size-5 mr-1 md:mr-2 text-[#C5A572]" />
                       <span>{featuredWriter.stats.readers} Readers</span>
-                    </div>
-                    <div className="flex items-center text-gray-400">
-                      <Award className="w-5 h-5 mr-2 text-[#C5A572]" />
-                      <span>{featuredWriter.stats.awards} Awards</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-xs text-justify md:text-base text-gray-300 leading-relaxed">
                 {featuredWriter.bio}
               </p>
 
               <Link
                 href="#"
-                className="inline-flex items-center px-4 py-3 text-sm bg-[#C5A572] text-[#2B1810] rounded-lg hover:bg-[#D4B684] transition duration-300 group"
+                className="inline-flex gap-1 md:gap-2 items-center px-2 py-1 md:px-4 md:py-3 text-sm bg-[#C5A572] text-[#2B1810] rounded-[5px] md:rounded-lg hover:bg-[#D4B684] transition duration-300 group"
               >
-                <span className="font-semibold">View Full Profile</span>
-                <ArrowRight className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" />
+                <span className="font-semibold text-xxs md:text-sm">
+                  View Full Profile
+                </span>
+                <ArrowRight className="size-3 md:size-5 transform group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
 
