@@ -20,10 +20,10 @@ const Navbar = () => {
     <div>
       <nav className="bg-[#2B1810] border-b border-[#C5A572]/20 px-6 py-4">
         <div className="container mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
-            <BookOpen className="w-8 h-8 text-[#C5A572]" />
-            <span className="text-[#C5A572] text-xl font-semibold">
-              E-LIBRARY
+          <Link href="/" className="flex items-center space-x-1 md:space-x-2">
+            <BookOpen className="size-4 md:size-8 text-[#C5A572]" />
+            <span className="text-[#C5A572] text-sm md:text-xl font-semibold">
+              E-LIB
             </span>
           </Link>
           <div className="hidden md:flex flex-1 max-w-xl mx-12">
@@ -57,8 +57,8 @@ const Navbar = () => {
 
           {status === "loading" && (
             <div className="flex items-center space-x-4">
-              <div className="h-9 w-16 bg-bgSecondary animate-pulse rounded-md" />
-              <div className="h-9 w-16 bg-bgSecondary animate-pulse rounded-md" />
+              <div className="h-6 w-10 md:h-9 md:w-16 bg-bgSecondary animate-pulse rounded-md" />
+              <div className="h-6 w-10 md:h-9 md:w-16 bg-bgSecondary animate-pulse rounded-md" />
             </div>
           )}
 
@@ -69,7 +69,7 @@ const Navbar = () => {
                 className="flex gap-2 items-center"
               >
                 <ProfileImg image={user?.profileImg} />
-                <p>{user?.name}</p>
+                <p className="hidden md:block">{user?.name}</p>
               </Link>
             </div>
           )}
