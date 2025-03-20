@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
@@ -35,8 +36,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: "jwt", maxAge: 60 * 60 * 24 },
   callbacks: {
     async jwt({ token, user, trigger, session }) {
-      if (Date.now() > (token.expiresAt as number)) {
-        throw new Error("Token expired");
+      if (user) {
+        token.accessToken = user.accessToken;
+      }
+
+      if (token.accessToken) {
+        try {
+          const decoded: { exp: number } = jwtDecode(
+            token.accessToken as string
+          );
+
+          const now = Date.now() / 1000;
+
+          if (decoded.exp < now) {
+            throw new Error("Access token expired");
+          }
+        } catch (error) {
+          console.error("JWT Expired:", error);
+          throw new Error("Access token expired");
+        }
       }
 
       if (trigger === "update" && session.user) {
