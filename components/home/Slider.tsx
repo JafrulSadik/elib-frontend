@@ -7,7 +7,6 @@ import { ArrowRight, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import DotButton, { useDotButton } from "./DotButtonsSlider";
-import "./slide.css";
 
 const slides = [
   {
@@ -49,64 +48,68 @@ const Slider = () => {
     useDotButton(emblaApi);
 
   return (
-    <section className="relative overflow-hidden mb-8">
-      <div className="embla__viewport" ref={emblaRef}>
-        <div className="embla__container">
-          {slides.map((slide, index) => (
-            <div key={index} className="embla__slide relative">
-              <Image
-                src={slide.image}
-                alt={slide.title}
-                height={800}
-                width={1920}
-                className="w-full h-[500px] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#2B1810]/80 to-[#2B1810]/50 z-10"></div>
+    <section className="relative mb-4 md:py-8">
+      <div className="container overflow-hidden">
+        <div className="overflow-hidden md:rounded-md" ref={emblaRef}>
+          <div className="flex">
+            {slides.map((slide, index) => (
+              <div key={index} className="flex-[0_0_100%] relative">
+                <Image
+                  src={slide.image}
+                  alt={slide.title}
+                  height={800}
+                  width={1920}
+                  className="w-full h-36 md:h-[300px] lg:h-[450px] object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#2B1810]/80 to-[#2B1810]/50 z-10" />
 
-              <div className="absolute inset-0 flex items-center  px-14 z-30">
-                <div className="max-w-2xl">
-                  <span className="inline-block px-4 py-2 bg-[#C5A572]/20 text-[#C5A572] rounded-full text-sm mb-4">
-                    {slide.category}
-                  </span>
-                  <h1 className="text-5xl font-bold text-textPrimary mb-4 leading-tight">
-                    {slide.title}
-                  </h1>
-                  <p className="text-xl text-gray-300 mb-6">{slide.subtitle}</p>
-                  <div className="flex items-center space-x-6 mb-8">
-                    <div className="flex items-center">
-                      <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                      <span className="text-white ml-2">{slide.rating}</span>
-                      <span className="text-gray-400 ml-2">
-                        ({slide.reviews} reviews)
-                      </span>
+                <div className="absolute  inset-0 flex items-center  z-30">
+                  <div className="w-full text-center md:text-left max-w-2xl space-y-1 md:space-y-3 lg:space-y-6 md:px-14 ">
+                    <span className="hidden md:inline-block text-xs lg:text-sm px-4 py-2 bg-textPrimary/20 text-textPrimary rounded-full ">
+                      {slide.category}
+                    </span>
+                    <h1 className="text-xl md:text-3xl  lg:text-5xl font-bold text-textPrimary leading-tight">
+                      {slide.title}
+                    </h1>
+                    <p className="text-xs md:text-base lg:text-xl text-gray-300">
+                      {slide.subtitle}
+                    </p>
+                    <div className="flex items-center justify-center md:justify-start space-x-6">
+                      <div className="hidden md:flex items-center text-base lg:text-xl">
+                        <Star className="size-5 text-yellow-400 fill-current" />
+                        <span className="text-white ml-2 ">{slide.rating}</span>
+                        <span className="text-gray-400 ml-2">
+                          ({slide.reviews} reviews)
+                        </span>
+                      </div>
                     </div>
+                    <Link
+                      href="/search"
+                      className="group inline-flex gap-1 md:gap-2 items-center text-xxs md:text-sm lg:text-base py-1 px-2 md:py-2 md:px-4 lg:px-8 lg:py-3 bg-[#C5A572] text-[#2B1810] shadow-black shadow-xs rounded-[4px] md:rounded-md lg:rounded-lg hover:bg-[#D4B684] transition duration-300"
+                    >
+                      <span className="font-semibold">Explore Now</span>
+                      <ArrowRight className="size-3 lg:size-5 transform group-hover:translate-x-1 transition-transform" />
+                    </Link>
                   </div>
-                  <Link
-                    href="/search"
-                    className="inline-flex items-center px-8 py-3 bg-[#C5A572] text-[#2B1810] rounded-lg hover:bg-[#D4B684] transition duration-300 group"
-                  >
-                    <span className="font-semibold">Explore Now</span>
-                    <ArrowRight className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" />
-                  </Link>
+                </div>
+
+                {/* Pagination Dots */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-40">
+                  {scrollSnaps.map((_, index) => (
+                    <DotButton
+                      key={index}
+                      className={`hidden md:inline-block h-2 w-2 rounded-full transition-all duration-300 ${
+                        selectedIndex === index
+                          ? "w-8 bg-[#C5A572]"
+                          : "bg-white/50 hover:bg-white"
+                      }`}
+                      onClick={() => onDotButtonClick(index)}
+                    />
+                  ))}
                 </div>
               </div>
-
-              {/* Pagination Dots */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-40">
-                {scrollSnaps.map((_, index) => (
-                  <DotButton
-                    key={index}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      selectedIndex === index
-                        ? "w-8 bg-[#C5A572]"
-                        : "bg-white/50 hover:bg-white"
-                    }`}
-                    onClick={() => onDotButtonClick(index)}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
