@@ -8,6 +8,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      container: {
+        center: true,
+      },
+      fontSize: {
+        xxs: "10px",
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
