@@ -4,7 +4,6 @@ import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { CloudDownload, Star } from "lucide-react";
 import Image from "next/image";
-import { useDotButton } from "./DotButtonsSlider";
 
 const featuredWriter = {
   name: "Sarah J. Anderson",
@@ -70,9 +69,6 @@ const FeaturedWriterBooks = () => {
     },
     [Autoplay({ delay: 4000, stopOnInteraction: false })]
   );
-
-  const { selectedIndex, scrollSnaps, onDotButtonClick } =
-    useDotButton(emblaApi);
 
   return (
     <div className="relative md:py-4 rounded-xl">

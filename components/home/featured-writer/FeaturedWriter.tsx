@@ -49,41 +49,11 @@ const featuredWriter = {
   ],
 };
 
-const slides = [
-  {
-    image:
-      "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1920&h=600&q=80",
-    title: "Discover Your Next Great Read",
-    subtitle: "Explore thousands of books from top authors",
-    category: "Featured",
-    rating: 4.8,
-    reviews: 1250,
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1920&h=600&q=80",
-    title: "Best Sellers of the Month",
-    subtitle: "Hand-picked selections from our editors",
-    category: "Popular",
-    rating: 4.9,
-    reviews: 980,
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1920&h=600&q=80",
-    title: "New Arrivals in Fiction",
-    subtitle: "Fresh stories waiting to be discovered",
-    category: "New",
-    rating: 4.7,
-    reviews: 756,
-  },
-];
-
 const FeaturedWriter = () => {
   return (
     <section className="md:py-12">
       <div className="container w-[90%] md:w-full md:py-5">
-        <div className="rounded-md md:rounded-lg md:py-6 md:pb-12 bg-textPrimary/5 px-4 md:px-16">
+        <div className="rounded-md md:rounded-lg pb-6 md:py-6 md:pb-12 bg-textPrimary/5 px-4 md:px-16 ">
           <div className="text-center py-8 md:py-6">
             <h2 className="text-xl md:text-3xl text-center  font-bold text-textPrimary">
               Featured Writer of the Week
