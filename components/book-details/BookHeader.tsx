@@ -19,7 +19,7 @@ const BookHeader = async (props: Props) => {
   if (!book) return null;
 
   return (
-    <div className="bg-[#3D261C]/80 backdrop-blur-lg rounded-2xl p-12 mb-8">
+    <div className="bg-[#3D261C]/80 backdrop-blur-lg rounded-xl p-12 mb-8">
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Book Cover */}
         <div className="lg:w-1/3">
@@ -29,7 +29,7 @@ const BookHeader = async (props: Props) => {
               height={600}
               width={400}
               alt="Book Cover"
-              className="w-full rounded-lg shadow-2xl transform transition duration-300"
+              className="w-full rounded-xl shadow-2xl transform transition duration-300"
             />
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
               <button className="bg-[#C5A572] text-[#2B1810] px-6 py-3 rounded-lg font-semibold hover:bg-[#D4B684] transition duration-300">
@@ -75,24 +75,13 @@ const BookHeader = async (props: Props) => {
                 Book Details
               </h3>
               <ul className="space-y-3 text-gray-400">
-                <li>Pages: 384</li>
-                <li>Language: English</li>
-                <li>Publisher: Magic Press</li>
+                <li>Pages : 384</li>
+                <li>Language : English</li>
+                <li>Publisher : Magic Press</li>
                 <li>
-                  Publication Date:{" "}
+                  Publication Date :{" "}
                   {new Date(book?.createdAt).toLocaleDateString()}
                 </li>
-              </ul>
-            </div>
-            <div className="bg-[#2B1810] rounded-xl p-6">
-              <h3 className="text-[#C5A572] font-semibold mb-2">
-                Available Formats
-              </h3>
-              <ul className="space-y-3 text-gray-400">
-                <li>eBook (PDF, EPUB)</li>
-                <li>Audiobook (MP3)</li>
-                <li>Hardcover</li>
-                <li>Paperback</li>
               </ul>
             </div>
           </div>

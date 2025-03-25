@@ -28,7 +28,7 @@ const relatedBooks = [
 const RelatedBooks = () => {
   return (
     <div className="lg:col-span-1">
-      <div className="bg-[#3D261C]/80 backdrop-blur-lg rounded-2xl p-8">
+      <div className="bg-[#3D261C]/80 backdrop-blur-lg rounded-xl p-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-[#C5A572]">Related Books</h2>
           <button className="text-[#C5A572] hover:text-[#D4B684] transition duration-300">

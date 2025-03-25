@@ -8,7 +8,7 @@ type Props = {
 
 const ReviewSection = () => {
   return (
-    <div className="bg-[#3D261C]/80  rounded-2xl p-8">
+    <div className="bg-[#3D261C]/80  rounded-xl p-8">
       <ReviewHeader />
       <div className="space-y-6">
         {[1, 2, 3].map((i) => (

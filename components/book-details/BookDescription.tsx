@@ -15,7 +15,7 @@ const BookDescription = async (props: Props) => {
   if (!book) return null;
 
   return (
-    <div className="bg-[#3D261C]/80 backdrop-blur-lg rounded-2xl p-8">
+    <div className="bg-[#3D261C]/80 backdrop-blur-lg rounded-xl p-8">
       <h2 className="text-2xl font-bold text-[#C5A572] mb-6">
         Book Description
       </h2>
