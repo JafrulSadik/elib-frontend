@@ -10,8 +10,8 @@ type Props = {
   price?: string;
   rating?: number;
   reviews?: number;
-  downloads?: number; // Added downloads as a prop
-  ranking?: number | string; // Added ranking as a prop
+  downloads?: number;
+  ranking?: number | string;
 };
 
 const PopularBookCard = ({
@@ -19,14 +19,14 @@ const PopularBookCard = ({
   title,
   author,
   cover,
-  price = "Free", // Default value
-  rating = 0, // Default value
-  reviews = 0, // Default value
-  downloads = 1000, // Default downloads (for now)
+  price = "Free",
+  rating = 0,
+  reviews = 0,
+  downloads = 1000,
   ranking,
 }: Props) => {
   return (
-    <Link href="#">
+    <Link href={`/books/${id}`}>
       <div className="min-w-40 md:w-auto bg-bgSecondary/50 py-4 md:py-10 hover:bg-bgSecondary/70 hover:scale-105 transition-transform duration-300 rounded-md border-none h-full hover:shadow-md">
         <div className="px-4 md:px-4">
           <div className="flex flex-col h-full space-y-4">
