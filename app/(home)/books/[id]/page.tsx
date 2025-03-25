@@ -2,10 +2,8 @@ import BookDescription from "@/components/book-details/BookDescription";
 import BookHeader from "@/components/book-details/BookHeader";
 import RelatedBooks from "@/components/book-details/RelatedBooks";
 import ReviewSection from "@/components/book-details/ReviewSection";
-import { auth } from "@/lib/auth/auth";
 
 export default async function BookPage({ params }: { params: { id: string } }) {
-  const session = await auth();
   const { id } = params;
 
   return (
