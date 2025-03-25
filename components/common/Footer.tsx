@@ -12,7 +12,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-[#2B1810] to-[#1a0f0a]">
+    <footer className="pt-12 md:pt-0 bg-gradient-to-b from-[#2B1810] to-[#1a0f0a]">
       <div className="container w-[90%] md:w-full">
         {/* Top Section with Logo and Newsletter */}
         <div className="flex flex-col lg:flex-row justify-between md:items-center mb-12  md:py-12">
@@ -52,7 +52,7 @@ export default function Footer() {
             <h4 className="text-textPrimary font-semibold mb-2 md:mb-6 text-base md:text-lg">
               About Us
             </h4>
-            <p className="text-xs md:text-sm text-gray-400 mb-2 md:mb-6 leading-relaxed">
+            <p className="text-xs md:text-base text-pretty text-gray-400 mb-2 md:mb-6 leading-relaxed">
               Discover millions of eBooks, audiobooks, and more at your
               fingertips. Join our community of book lovers and explore endless
               possibilities.
