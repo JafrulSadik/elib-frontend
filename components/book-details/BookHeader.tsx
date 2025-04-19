@@ -19,20 +19,22 @@ const BookHeader = async (props: Props) => {
   if (!book) return null;
 
   return (
-    <div className="bg-[#3D261C]/80 backdrop-blur-lg rounded-xl p-12 mb-8">
-      <div className="flex flex-col lg:flex-row gap-12">
+    <div className="bg-bgSecondary/80 backdrop-blur-lg md:rounded-xl p-6 md:p-12 md:mb-8">
+      <div className="flex flex-col lg:flex-row gap-6 md:gap-12">
         {/* Book Cover */}
         <div className="lg:w-1/3">
-          <div className="relative group">
-            <Image
-              src={book?.cover}
-              height={600}
-              width={400}
-              alt="Book Cover"
-              className="w-full rounded-xl shadow-2xl transform transition duration-300"
-            />
-            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-              <button className="bg-[#C5A572] text-[#2B1810] px-6 py-3 rounded-lg font-semibold hover:bg-[#D4B684] transition duration-300">
+          <div className="p-4 flex justify-center md:p-0 relative group">
+            <div className="h-96 md:h-full">
+              <Image
+                src={book?.cover}
+                height={600}
+                width={400}
+                alt="Book Cover"
+                className="h-full w-full rounded-xl transform transition duration-300"
+              />
+            </div>
+            <div className="absolute inset-0 m-4 md:m-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+              <button className="bg-textPrimary text-bgPrimary px-6 py-3 rounded-lg font-semibold hover:bg-[#D4B684] transition duration-300">
                 Preview Book
               </button>
             </div>
@@ -41,37 +43,39 @@ const BookHeader = async (props: Props) => {
 
         {/* Book Info */}
         <div className="flex-1">
-          <div className="flex items-center gap-4 mb-4">
-            <span className="px-3 py-1 bg-[#C5A572]/20 text-[#C5A572] rounded-full text-sm">
+          <div className="flex items-center gap-2 md:gap-4 mb-4">
+            <span className="px-3 py-1 bg-textPrimary/20 text-textPrimary rounded-full text-sm">
               Fantasy
             </span>
-            <span className="px-3 py-1 bg-[#C5A572]/20 text-[#C5A572] rounded-full text-sm">
+            <span className="px-3 py-1 bg-textPrimary/20 text-textPrimary rounded-full text-sm">
               Adventure
             </span>
           </div>
 
-          <h1 className="text-4xl font-bold text-[#C5A572] mb-2">
+          <h1 className="text-2xl md:text-4xl font-bold text-textPrimary mb-2">
             {book?.title}
           </h1>
-          <p className="text-xl text-gray-400 mb-6">by {book?.author?.name}</p>
+          <p className="text-xl text-gray-400 mb-4 md:mb-6">
+            by {book?.author?.name}
+          </p>
 
-          <div className="flex items-center space-x-6 mb-8">
+          <div className="flex items-center space-x-6 mb-6 md:mb-8">
             <div className="flex items-center">
-              <Star className="w-6 h-6 text-yellow-400 fill-current" />
-              <span className="text-2xl text-white ml-2 font-semibold">
+              <Star className="size-5 md:size-6 text-yellow-400 fill-current" />
+              <span className="text-base md:text-2xl text-white ml-2 font-semibold">
                 4.8
               </span>
-              <span className="text-gray-400 ml-2">(128 reviews)</span>
+              <span className=" text-gray-400 ml-2">(128 reviews)</span>
             </div>
             <div className="text-gray-400">
-              <BookMarked className="w-5 h-5 inline mr-2" />
+              <BookMarked className="size-5 inline mr-2" />
               15,234 reads
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div className="bg-[#2B1810] rounded-xl p-6">
-              <h3 className="text-[#C5A572] font-semibold mb-2">
+            <div className="bg-bgPrimary rounded-xl p-6">
+              <h3 className="text-textPrimary font-semibold mb-2">
                 Book Details
               </h3>
               <ul className="space-y-3 text-gray-400">
@@ -86,22 +90,27 @@ const BookHeader = async (props: Props) => {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-4 mb-8">
-            <button className="flex-1 px-6 py-3 bg-[#C5A572] text-[#2B1810] rounded-lg hover:bg-[#D4B684] transition duration-300 flex items-center justify-center space-x-2">
+          <div className="grid grid-cols-12 grid-rows-2 md:grid-rows-1 gap-3 md:gap-4 mb-8">
+            <button className="col-span-8  h-12 bg-textPrimary text-bgPrimary rounded-lg hover:bg-textPrimary transition duration-300 flex items-center justify-center space-x-2 md:order-1 md:col-span-4">
               <BookOpen className="w-5 h-5" />
               <span>Read Now</span>
             </button>
+
+            <div className="col-span-4 h-12 md:order-3 md:col-span-2">
+              <AddToFavouriteButton />
+            </div>
+
+            <button className="col-span-4 h-12 bg-bgPrimary text-textPrimary rounded-lg border border-textPrimary hover:bg-[#3D261C] transition duration-300 flex items-center justify-center space-x-2 md:order-4 md:col-span-2">
+              <Share2 className="size-5" />
+            </button>
+
             <Link
               href={book?.file}
-              className="flex-1 px-6 py-3 bg-[#2B1810] text-[#C5A572] rounded-lg border border-[#C5A572] hover:bg-[#3D261C] transition duration-300 flex items-center justify-center space-x-2"
+              className="col-span-8 h-12 bg-bgPrimary text-textPrimary rounded-lg border border-textPrimary hover:bg-[#3D261C] transition duration-300 flex items-center justify-center space-x-2 md:order-2 md:col-span-4"
             >
               <Download className="w-5 h-5" />
               <span>Download</span>
             </Link>
-            <AddToFavouriteButton />
-            <button className="px-6 py-3 bg-[#2B1810] text-[#C5A572] rounded-lg border border-[#C5A572] hover:bg-[#3D261C] transition duration-300 flex items-center justify-center space-x-2">
-              <Share2 className="w-5 h-5" />
-            </button>
           </div>
         </div>
       </div>

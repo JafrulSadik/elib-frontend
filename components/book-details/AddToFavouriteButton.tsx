@@ -21,13 +21,15 @@ const AddToFavouriteButton = () => {
   return (
     <button
       onClick={handleAddToFavourite}
-      className="px-6 py-3 bg-[#2B1810] text-[#C5A572] rounded-lg border border-[#C5A572] hover:bg-[#3D261C] transition duration-300 flex items-center justify-center space-x-2"
+      className={`w-full py-3 bg-[#2B1810] text-[#C5A572] rounded-lg border border-[#C5A572]  transition duration-300 flex items-center justify-center space-x-2 ${
+        isFavourite && "bg-textPrimary/90 text-bgPrimary/90 font-thin"
+      }`}
     >
-      {!loading && !isFavourite && <Heart className="w-5 h-5" />}
+      {!loading && !isFavourite && <Heart className="size-5" />}
       {!loading && isFavourite && (
-        <Heart className="w-5 h-5 fill-textPrimary/70 " />
+        <Heart className="size-5 fill-textPrimary/90 " />
       )}
-      {loading && <Loader className="w-5 h-5 animate-spin" />}
+      {loading && <Loader className="size-5 animate-spin" />}
     </button>
   );
 };
