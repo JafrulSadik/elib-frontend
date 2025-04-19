@@ -9,7 +9,7 @@ import SliderNavigationButton from "../new-releases/SliderNavigationButton";
 const TrendingBookSlider = ({ books }: { books: Book[] }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
-    dragFree: false,
+    dragFree: true,
     containScroll: "trimSnaps",
   });
 
