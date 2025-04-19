@@ -22,7 +22,7 @@ const Navbar = () => {
         <div className="container mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-1 md:space-x-2">
             <BookOpen className="size-4 md:size-8 text-[#C5A572]" />
-            <span className="text-[#C5A572] text-sm md:text-xl font-semibold">
+            <span className="text-[#C5A572] text-base md:text-xl font-semibold">
               E-LIB
             </span>
           </Link>
