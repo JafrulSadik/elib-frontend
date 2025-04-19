@@ -16,7 +16,7 @@ const ReviewModal = ({ onShowReviewModal }: Props) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[10000]"
+      className="fixed inset-0 bg-black backdrop-blur-md bg-opacity-50 flex items-center justify-center p-4 z-[10000]"
     >
       <div className="bg-[#3D261C] rounded-xl p-8 max-w-lg w-full">
         <h2 className="text-2xl font-bold text-[#C5A572] mb-6">
