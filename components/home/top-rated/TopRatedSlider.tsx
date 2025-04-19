@@ -7,7 +7,7 @@ import useEmblaCarousel from "embla-carousel-react";
 const TopRatedSlider = ({ books }: { books: Book[] }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
-    dragFree: false,
+    dragFree: true,
     containScroll: "trimSnaps",
   });
 
