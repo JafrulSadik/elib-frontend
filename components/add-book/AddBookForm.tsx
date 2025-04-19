@@ -4,6 +4,7 @@ import { errorToast, successToast } from "@/lib/notify";
 import { supabase } from "@/lib/supabase";
 import { ApiResponse } from "@/types/ApiResponse";
 import { Book } from "@/types/Book";
+import { Genre } from "@/types/Genre";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { nanoid } from "nanoid";
@@ -50,7 +51,7 @@ export const bookSchema = z.object({
 // Infer TypeScript type from schema
 export type BookFormData = z.infer<typeof bookSchema>;
 
-const AddBookForm = () => {
+const AddBookForm = ({ genres }: { genres: Genre[] }) => {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const {
@@ -61,20 +62,6 @@ const AddBookForm = () => {
   } = useForm<BookFormData>({
     resolver: zodResolver(bookSchema),
   });
-
-  const genres = [
-    "Fiction",
-    "Non-Fiction",
-    "Science Fiction",
-    "Mystery",
-    "Romance",
-    "Horror",
-    "Biography",
-    "History",
-    "Poetry",
-    "Drama",
-    "Religion",
-  ];
 
   const onSubmit = async (formData: BookFormData) => {
     const coverImage = formData.cover?.[0];
@@ -118,7 +105,7 @@ const AddBookForm = () => {
 
     const bookData = {
       title: formData.title,
-      genreId: "66be64a4e29bc593c0abc019",
+      genreId: formData.genre,
       description: formData.description,
       coverImageUrl: coverImagePublicUrl.publicUrl,
       bookFileUrl: bookFilePublicUrl.publicUrl,
@@ -176,10 +163,10 @@ const AddBookForm = () => {
           {genres.map((genre) => (
             <option
               className="text-white bg-bgSecondary hover:bg-slate-950"
-              key={genre}
-              value={genre}
+              key={genre._id}
+              value={genre._id}
             >
-              {genre}
+              {genre.title}
             </option>
           ))}
         </select>
