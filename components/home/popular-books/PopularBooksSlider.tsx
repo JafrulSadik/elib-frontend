@@ -6,7 +6,7 @@ import PopularBookCard from "./PopularBookCard";
 const PopularBooksSlider = ({ books }: { books: Book[] }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
-    dragFree: false,
+    dragFree: true,
     containScroll: "trimSnaps",
   });
   return (
