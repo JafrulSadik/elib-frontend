@@ -48,7 +48,7 @@ const Slider = () => {
     useDotButton(emblaApi);
 
   return (
-    <section className="relative mb-4 md:py-8">
+    <section className="relative md:py-8">
       <div className="container overflow-hidden">
         <div className="overflow-hidden md:rounded-md" ref={emblaRef}>
           <div className="flex">
@@ -59,7 +59,7 @@ const Slider = () => {
                   alt={slide.title}
                   height={800}
                   width={1920}
-                  className="w-full h-36 md:h-[300px] lg:h-[450px] object-cover"
+                  className="w-full h-40 md:h-[300px] lg:h-[450px] object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#2B1810]/80 to-[#2B1810]/50 z-10" />
 
