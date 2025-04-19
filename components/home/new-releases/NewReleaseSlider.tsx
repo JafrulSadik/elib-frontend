@@ -8,7 +8,7 @@ import SliderNavigationButton from "./SliderNavigationButton";
 const NewReleaseSlider = ({ books }: { books: Book[] }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "center",
-    dragFree: false,
+    dragFree: true,
     containScroll: "trimSnaps",
   });
 
