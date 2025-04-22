@@ -1,7 +1,7 @@
 .active {
   border-radius: 5px;
-  background-color: #441006;
-  color: white;
+  background-color: #58433f;
+  color: rgb(213, 203, 203);
 }
 
 .page-number {
@@ -11,12 +11,22 @@
   height: 30px;
   width: 30px;
   border-radius: 5px;
-  border: 1px solid #cdcdcd;
+}
+
+.page-number:hover {
+  background-color: #46221b;
+  color: rgb(187, 187, 187);
 }
 
 .next {
   height: 30px;
   width: 30px;
+  color: rgb(187, 187, 187);
+}
+
+.next:hover {
+  background-color: #46221b;
+  color: rgb(187, 187, 187);
 }
 
 .pervious {
@@ -25,8 +35,13 @@
   align-items: center;
   height: 30px;
   width: 30px;
-  border: 1px solid #cdcdcd;
   border-radius: 5px;
+  background-color: #461910;
+}
+
+.pervious:hover {
+  background-color: #46221b;
+  color: rgb(187, 187, 187);
 }
 
 .next {
@@ -35,8 +50,9 @@
   align-items: center;
   height: 30px;
   width: 30px;
-  border: 1px solid #cdcdcd;
+  /* border: 1px solid #cdcdcd; */
   border-radius: 5px;
+  background-color: #461910;
 }
 
 .pagination {

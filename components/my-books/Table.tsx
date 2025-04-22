@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useState } from "react";
 import Delete from "./Delete";
 import Pagination from "./Pagination";
+import "./style.css";
 
 type ColumnType = Pick<
   Book,

@@ -21,10 +21,10 @@ const Pagination = (props: Props) => {
       containerClassName="pagination"
       pageClassName="page-number"
       activeClassName="active"
-      previousLabel={<ChevronLeft />}
+      previousLabel={<ChevronLeft className="text-white" size={20} />}
       previousClassName="pervious"
       nextClassName="next"
-      nextLabel={<ChevronRight />}
+      nextLabel={<ChevronRight className="text-white" size={20} />}
     />
   );
 };
