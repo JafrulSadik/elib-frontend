@@ -8,7 +8,7 @@ type Props = {
 
 const CategoryCard = ({ genre }: Props) => {
   return (
-    <Link href={`/search/?genre=${genre?.code}`}>
+    <Link href={`/books?genres=${genre?.code}`}>
       <div className="relative shadow-md group w-full min-h-[120px] max-w-[260px]  aspect-[1/1] sm:max-w-[280px] md:max-w-[300px] rounded-md bg-bgSecondary/60  px-2 pt-2 group overflow-hidden">
         <h3 className="text-sm md:text-base text-center font-semibold py-3 md:py-6 text-textPrimary">
           {genre.title}
