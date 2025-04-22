@@ -1,69 +1,61 @@
 "use client";
+import { PopularAuthorType } from "@/types/User";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useMemo } from "react";
 
-const initialAuthors = [
-  { _id: "1", name: "Author One" },
-  { _id: "2", name: "Author Two" },
-  { _id: "3", name: "Author Three" },
-  { _id: "4", name: "Author Four" },
-  { _id: "5", name: "Author Five" },
-];
-
-const TopWriters = () => {
+const TopWriters = ({ authors }: { authors: PopularAuthorType[] }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [authors, setAuthors] = useState(initialAuthors);
 
-  const authorsId = searchParams.get("authors")?.split(",");
+  const selectedAuthorIds = useMemo(
+    () => searchParams.get("authors")?.split(",") || [],
+    [searchParams]
+  );
+
   const handleAuthorSelect = (authorId: string) => {
     const params = new URLSearchParams(searchParams);
+    const ids = new Set(selectedAuthorIds);
 
-    const data = params.get("authors");
-    let newAuthors = "";
-
-    if (data) {
-      const splited = data.split(",");
-      if (splited.includes(authorId)) {
-        const filteredAuthor = splited.filter((item) => item !== authorId);
-        newAuthors = filteredAuthor.join(",");
-      } else {
-        const selectedAuthor = [...splited, authorId];
-        newAuthors = selectedAuthor.join(",");
-      }
+    if (ids.has(authorId)) {
+      ids.delete(authorId);
     } else {
-      newAuthors = authorId;
+      ids.add(authorId);
     }
 
-    if (newAuthors) {
-      params.set("authors", newAuthors);
+    if (ids.size) {
+      params.set("authors", Array.from(ids).join(","));
     } else {
       params.delete("authors");
     }
 
-    const url = `${pathname}?${params.toString()}`;
-
-    router.push(url);
+    params.delete("page");
+    router.push(`${pathname}?${params.toString()}`);
     router.refresh();
   };
 
   return (
-    <div className="text-sm h-[180px]">
-      {authors &&
-        authors.map((author) => {
-          const selected = authorsId?.includes(author._id);
+    <div className="text-sm h-[180px] overflow-y-auto">
+      {[...authors]
+        .sort((a, b) => {
+          const aSelected = selectedAuthorIds.includes(String(a._id));
+          const bSelected = selectedAuthorIds.includes(String(b._id));
+          return aSelected === bSelected ? 0 : aSelected ? -1 : 1;
+        })
+        .map((author) => {
+          const selected = selectedAuthorIds.includes(author._id);
+
           return (
             <div key={author._id}>
-              <div className="flex items-center px-3 gap-2 py-1">
+              <label className="flex items-center px-3 gap-2 py-1 cursor-pointer">
                 <input
-                  checked={selected || false}
-                  onChange={() => handleAuthorSelect(author._id)}
                   type="checkbox"
+                  checked={selected}
+                  onChange={() => handleAuthorSelect(author._id)}
                   className="accent-bgSecondary"
                 />
                 <p className="max-w-40 truncate">{author.name}</p>
-              </div>
+              </label>
               <hr className="bg-textPrimary/20 border-none h-[0.5px] my-1" />
             </div>
           );

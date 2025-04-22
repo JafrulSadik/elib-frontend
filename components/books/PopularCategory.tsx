@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useMemo } from "react";
 import "./scrollbar-style.css";
 
 type Genre = {
@@ -9,88 +9,63 @@ type Genre = {
   code: number;
 };
 
-const initialGenres: Genre[] = [
-  { _id: "1", title: "Fiction", code: 1 },
-  { _id: "2", title: "Non-Fiction", code: 2 },
-  { _id: "3", title: "Science Fiction", code: 3 },
-  { _id: "4", title: "Fantasy", code: 4 },
-  { _id: "5", title: "Mystery", code: 5 },
-];
-
-const PopularCategory = () => {
+const PopularCategory = ({ genres }: { genres: Genre[] }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const genreCodes = searchParams.get("genres")?.split(",");
-  const [genres, setGenres] = useState<Genre[]>(initialGenres);
+  const selectedGenreCodes = useMemo(
+    () => searchParams.get("genres")?.split(",") || [],
+    [searchParams]
+  );
 
   const handleGenre = (genre: Genre) => {
     const params = new URLSearchParams(searchParams);
+    const codes = new Set(selectedGenreCodes);
 
-    const data = params.get("genres");
-    let newGenres = "";
-
-    if (data) {
-      const splited = data.split(",");
-      if (splited.includes(genre.code.toString())) {
-        const filteredGenre = splited.filter(
-          (item) => item !== genre.code.toString()
-        );
-        newGenres = filteredGenre.join(",");
-      } else {
-        const allGenre = [...splited, genre.code];
-        newGenres = allGenre.join(",");
-      }
+    if (codes.has(String(genre.code))) {
+      codes.delete(String(genre.code));
     } else {
-      newGenres = genre.code.toString();
+      codes.add(String(genre.code));
     }
 
-    if (newGenres) {
-      params.set("genres", newGenres);
+    if (codes.size) {
+      params.set("genres", Array.from(codes).join(","));
     } else {
       params.delete("genres");
     }
 
-    const url = `${pathname}?${params.toString()}`;
-
-    router.push(url);
+    params.delete("page");
+    router.push(`${pathname}?${params.toString()}`);
     router.refresh();
   };
 
-  //   const fetchAllGenres = async () => {
-  //     const queryString = searchParams.get("genres");
-  //     const response = await getAllGenre({ queryString: queryString || "" });
-  //     const { data } = response;
-  //     setGenres(data);
-  //   };
-
-  //   useEffect(() => {
-  //     fetchAllGenres();
-  //   }, [searchParams]);
-
   return (
-    <div className="text-sm h-[150px]  overflow-y-auto">
-      {genres?.map((genre, index) => {
-        const selected = genreCodes?.includes(genre.code.toString());
+    <div className="text-sm h-[150px] overflow-y-auto">
+      {[...genres]
+        .sort((a, b) => {
+          const aSelected = selectedGenreCodes.includes(String(a.code));
+          const bSelected = selectedGenreCodes.includes(String(b.code));
+          return aSelected === bSelected ? 0 : aSelected ? -1 : 1;
+        })
+        .map((genre) => {
+          const isSelected = selectedGenreCodes.includes(String(genre.code));
 
-        return (
-          <div key={index}>
-            <div
-              onChange={() => handleGenre(genre)}
-              className="flex items-center px-3 gap-2 py-1"
-            >
-              <input
-                type="checkbox"
-                defaultChecked={selected}
-                className="accent-bgSecondary"
-              />
-              <span>{genre.title}</span>
+          return (
+            <div key={genre._id}>
+              <label className="flex items-center px-3 gap-2 py-1 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={isSelected}
+                  onChange={() => handleGenre(genre)}
+                  className="accent-bgSecondary"
+                />
+                <span>{genre.title}</span>
+              </label>
+              <hr className="bg-textPrimary/20 border-none h-[0.5px] my-1" />
             </div>
-            <hr className="bg-textPrimary/20 border-none h-[0.5px] my-1" />
-          </div>
-        );
-      })}
+          );
+        })}
     </div>
   );
 };

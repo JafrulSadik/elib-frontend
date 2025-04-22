@@ -17,8 +17,8 @@ export type Book = {
   prevEnd?: number;
   previewFile?: string;
   price?: number;
-  totalRating: number;
-  numOfRating: number;
+  totalRating?: number;
+  numOfRating?: number;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -28,6 +28,7 @@ export type PaginationType = {
   page: number;
   prev: null | number;
   totalPage: number;
+  totalItem: number;
 };
 
 export type GetUserBooksProps = {

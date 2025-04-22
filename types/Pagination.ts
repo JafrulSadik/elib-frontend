@@ -3,4 +3,5 @@ export type PaginationType = {
   page: number;
   prev: null | number;
   totalPage: number;
+  totalItem: number;
 };
