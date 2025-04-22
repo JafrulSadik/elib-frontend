@@ -4,8 +4,6 @@ import { BookOpen, Search } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
-import LoginModal from "../auth/LoginModal";
-import RegistrationModal from "../auth/RegistrationModal";
 import ProfileImg from "./ProfileImg";
 import SearchModal from "./SearchModal";
 
@@ -40,18 +38,18 @@ const Navbar = () => {
 
           {!user && status === "unauthenticated" && (
             <div className="flex items-center space-x-4">
-              <button
-                onClick={() => setShowLogin(true)}
+              <Link
+                href="/login"
                 className="text-[#C5A572] hover:text-[#D4B684] px-4 py-2"
               >
                 Login
-              </button>
-              <button
-                onClick={() => setShowRegister(true)}
+              </Link>
+              <Link
+                href="/register"
                 className="bg-[#C5A572] text-[#2B1810] px-6 py-2 rounded-lg hover:bg-[#D4B684] transition duration-300"
               >
                 Register
-              </button>
+              </Link>
             </div>
           )}
 
@@ -78,19 +76,19 @@ const Navbar = () => {
 
       {showSearch && <SearchModal onShowSearch={setShowSearch} />}
 
-      {showLogin && (
+      {/* {showLogin && (
         <LoginModal
           onShowLogin={setShowLogin}
           onShowRegister={setShowRegister}
         />
-      )}
+      )} */}
 
-      {showRegister && (
+      {/* {showRegister && (
         <RegistrationModal
           onShowLogin={setShowLogin}
           onShowRegister={setShowRegister}
         />
-      )}
+      )} */}
     </div>
   );
 };

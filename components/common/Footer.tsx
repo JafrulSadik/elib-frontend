@@ -1,5 +1,4 @@
 import {
-  BookOpen,
   Facebook,
   Instagram,
   Linkedin,
@@ -12,10 +11,10 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="pt-12 md:pt-0 bg-gradient-to-b from-[#2B1810] to-[#1a0f0a]">
+    <footer className="pt-12 md:pt-16 bg-gradient-to-b from-[#2B1810] to-[#1a0f0a]">
       <div className="container w-[90%] md:w-full">
         {/* Top Section with Logo and Newsletter */}
-        <div className="flex flex-col lg:flex-row justify-between md:items-center mb-12  md:py-12">
+        {/* <div className="flex flex-col lg:flex-row justify-between md:items-center mb-12  md:py-12">
           <div className="flex items-center mb-4 md:mb-8 lg:mb-0">
             <BookOpen className="size-8 md:size-10 text-textPrimary" />
             <div className="ml-2 md:ml-4">
@@ -43,7 +42,7 @@ export default function Footer() {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-12 mb-12">
