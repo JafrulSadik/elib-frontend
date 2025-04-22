@@ -1,6 +1,6 @@
+import { isAddedToFavourite } from "@/app/action/book-action";
 import { getBook } from "@/lib/books";
 import { ApiResponse } from "@/types/ApiResponse";
-import { Book } from "@/types/Book";
 import { BookMarked, BookOpen, Download, Share2, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,9 +12,13 @@ type Props = {
 
 const BookHeader = async (props: Props) => {
   const { bookId } = props;
-  const response = (await getBook(bookId)) as ApiResponse<Book>;
+  const { data: book, code, message } = await getBook(bookId);
 
-  const book = response.code === 200 ? response.data : null;
+  const {
+    data: isFavourite,
+    code: isFavouriteCode,
+    message: isFavouriteMessage,
+  } = (await isAddedToFavourite(bookId)) as ApiResponse<boolean>;
 
   if (!book) return null;
 
@@ -45,10 +49,7 @@ const BookHeader = async (props: Props) => {
         <div className="flex-1">
           <div className="flex items-center gap-2 md:gap-4 mb-4">
             <span className="px-3 py-1 bg-textPrimary/20 text-textPrimary rounded-full text-sm">
-              Fantasy
-            </span>
-            <span className="px-3 py-1 bg-textPrimary/20 text-textPrimary rounded-full text-sm">
-              Adventure
+              {book?.genre?.title}
             </span>
           </div>
 
@@ -97,7 +98,10 @@ const BookHeader = async (props: Props) => {
             </button>
 
             <div className="col-span-4 h-12 md:order-3 md:col-span-2">
-              <AddToFavouriteButton />
+              <AddToFavouriteButton
+                bookId={book?._id}
+                favourite={isFavourite || false}
+              />
             </div>
 
             <button className="col-span-4 h-12 bg-bgPrimary text-textPrimary rounded-lg border border-textPrimary hover:bg-[#3D261C] transition duration-300 flex items-center justify-center space-x-2 md:order-4 md:col-span-2">

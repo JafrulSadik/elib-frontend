@@ -1,19 +1,34 @@
 "use client";
 
+import { addToFavourite } from "@/app/action/book-action";
+import { errorToast, successToast } from "@/lib/notify";
 import { Heart, Loader } from "lucide-react";
 import { useState } from "react";
 
-const AddToFavouriteButton = () => {
+type Props = {
+  bookId: string;
+  favourite: boolean;
+};
+
+const AddToFavouriteButton = ({ bookId, favourite }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [isFavourite, setIsFavourite] = useState(false);
+  const [isFavourite, setIsFavourite] = useState(favourite);
 
   const handleAddToFavourite = async () => {
     setLoading(true);
-    const response = await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-      }, 1000);
-    });
+    const response = await addToFavourite(bookId);
+
+    if (response.code !== 200) {
+      errorToast(response.message);
+      setLoading(false);
+      return;
+    }
+
+    if (!favourite) {
+      successToast("Book added to favourite!");
+    } else {
+      successToast("Book removed from favourite!");
+    }
     setLoading(false);
     setIsFavourite((prev) => !prev);
   };
