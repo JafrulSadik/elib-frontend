@@ -1,16 +1,12 @@
 "use client";
 
-import { BookOpen, Search } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useState } from "react";
 import ProfileImg from "./ProfileImg";
-import SearchModal from "./SearchModal";
+import SearchInput from "./SearchInput";
 
 const Navbar = () => {
-  const [showLogin, setShowLogin] = useState<boolean>(false);
-  const [showRegister, setShowRegister] = useState<boolean>(false);
-  const [showSearch, setShowSearch] = useState<boolean>(false);
   const { data: loggedInUser, status } = useSession();
   const user = loggedInUser?.user;
 
@@ -24,17 +20,8 @@ const Navbar = () => {
               E-LIB
             </span>
           </Link>
-          <div className="hidden md:flex flex-1 max-w-xl mx-12">
-            <div className="relative w-full">
-              <input
-                type="text"
-                placeholder="Search for books..."
-                className="w-full px-4 py-2 bg-[#3D261C] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C5A572]/50 placeholder-gray-400"
-                onClick={() => setShowSearch(true)}
-              />
-              <Search className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
-            </div>
-          </div>
+
+          <SearchInput />
 
           {!user && status === "unauthenticated" && (
             <div className="flex items-center space-x-4">
@@ -73,22 +60,6 @@ const Navbar = () => {
           )}
         </div>
       </nav>
-
-      {showSearch && <SearchModal onShowSearch={setShowSearch} />}
-
-      {/* {showLogin && (
-        <LoginModal
-          onShowLogin={setShowLogin}
-          onShowRegister={setShowRegister}
-        />
-      )} */}
-
-      {/* {showRegister && (
-        <RegistrationModal
-          onShowLogin={setShowLogin}
-          onShowRegister={setShowRegister}
-        />
-      )} */}
     </div>
   );
 };
