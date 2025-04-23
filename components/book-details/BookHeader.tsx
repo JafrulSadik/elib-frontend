@@ -4,7 +4,7 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { BookMarked, BookOpen, Download, Share2, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import AddToFavouriteButton from "./AddToFavouriteButton";
+import AddToLibrary from "./AddToLibraryButton";
 
 type Props = {
   bookId: string;
@@ -98,7 +98,7 @@ const BookHeader = async (props: Props) => {
             </button>
 
             <div className="col-span-4 h-12 md:order-3 md:col-span-2">
-              <AddToFavouriteButton
+              <AddToLibrary
                 bookId={book?._id}
                 favourite={isFavourite || false}
               />

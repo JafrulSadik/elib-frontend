@@ -61,7 +61,7 @@ export const getBook = async (
     return {
       code: 500,
       message: error.message,
-      data: [],
+      data: undefined,
     };
   }
 };

@@ -1,12 +1,12 @@
 "use client";
 
-import { Book, Heart, Plus, User } from "lucide-react";
+import { Book, Library, Plus, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const menuItems = [
   { label: "My Profile", path: "profile", icon: User },
-  { label: "Favourite", path: "favourites", icon: Heart },
+  { label: "My Library", path: "library", icon: Library },
   { label: "My Books", path: "my-books", icon: Book },
   { label: "Add a book", path: "add-book", icon: Plus },
 ];
