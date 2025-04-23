@@ -1,6 +1,6 @@
 "use client";
 
-import { addToFavourite } from "@/app/action/book-action";
+import { addToMyLibrary } from "@/app/action/book-action";
 import { errorToast, successToast } from "@/lib/notify";
 import { Book } from "@/types/Book";
 import Image from "next/image";
@@ -11,16 +11,16 @@ type Props = {
   book: Book;
 };
 
-const FavouriteCard = (props: Props) => {
+const LibraryBookCard = (props: Props) => {
   const { book } = props;
 
   const handleAddToFavourite = async () => {
-    const res = await addToFavourite(book?._id);
+    const res = await addToMyLibrary(book?._id);
     if (res.code === 200) {
-      successToast("Book removed from favourite!");
+      successToast("Book removed from library!");
     } else {
       // Handle error
-      errorToast("Failed to remove book from favourite!");
+      errorToast("Failed to remove book from library!");
     }
   };
 
@@ -54,7 +54,7 @@ const FavouriteCard = (props: Props) => {
 
         <div className="flex items-center gap-1 md:gap-2">
           <Link
-            href={`/reader/${book._id}`}
+            href={`/reader/book/${book._id}`}
             className="w-14 py-1 lg:py-2 md:w-24 text-center  rounded-md text-bgPrimary  text-xs md:text-sm shadow-md bg-gradient-to-b from-textPrimary/80 to-textPrimary/100 hover:bg-crusta-900"
           >
             Read
@@ -71,4 +71,4 @@ const FavouriteCard = (props: Props) => {
   );
 };
 
-export default FavouriteCard;
+export default LibraryBookCard;
