@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth/auth";
 import { ApiResponse } from "@/types/ApiResponse";
 import { revalidatePath } from "next/cache";
 
-export const addToFavourite = async (bookId: string) => {
+export const addToMyLibrary = async (bookId: string) => {
   const session = await auth();
   try {
     const res = await fetch(
@@ -23,7 +23,7 @@ export const addToFavourite = async (bookId: string) => {
       throw new Error(`Failed to add to favourite: ${res.statusText}`);
     }
 
-    revalidatePath("/dashboard/favourite");
+    revalidatePath("/dashboard/library");
     return await res.json();
   } catch (err) {
     const error = err as Error;
