@@ -37,9 +37,7 @@ export const getPopularBooks = async () => {
   }
 };
 
-export const getBook = async (
-  id: string
-): Promise<ApiResponse<Book, PaginationType>> => {
+export const getBook = async (id: string): Promise<ApiResponse<Book>> => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/books/${id}`,

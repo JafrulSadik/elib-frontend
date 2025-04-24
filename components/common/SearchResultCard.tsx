@@ -1,4 +1,5 @@
 import { Star } from "lucide-react";
+import Image from "next/image";
 
 type Props = {
   image: string;
@@ -21,7 +22,7 @@ const SearchResultCard = ({
     <div className="bg-[#2B1810] rounded-xl overflow-hidden border border-[#C5A572]/20 hover:border-[#C5A572]/40 transition-all duration-300">
       <div className="flex p-4 space-x-4">
         <div className="w-24 h-32 flex-shrink-0">
-          <img
+          <Image
             src={image}
             alt={title}
             className="w-full h-full object-cover rounded-lg"

@@ -144,7 +144,7 @@ const RegistrationForm = () => {
         {...register("confirmPassword")}
       />
 
-      <Field error={errors?.agree}>
+      <Field error={errors?.agree?.message}>
         <div className="flex items-center">
           <input
             type="checkbox"

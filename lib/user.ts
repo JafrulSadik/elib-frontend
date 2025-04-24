@@ -1,27 +1,27 @@
 import { ApiResponse } from "@/types/ApiResponse";
 import { User } from "@/types/User";
-import { fetchDataWithAuth } from "./fetchData";
 
 type UserProfileProps = {
   userId?: string;
 };
 
-export const getUserProfile = async ({ userId }: UserProfileProps) => {
+export const getUserProfile = async ({
+  userId,
+}: UserProfileProps): Promise<ApiResponse<User[]>> => {
   try {
-    if (!userId) {
-      throw new Error("User id is not defined");
+    const res = await fetch(`/users/profile/${userId}`);
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch books: ${res.statusText}`);
     }
 
-    const response = (await fetchDataWithAuth(
-      `/users/profile/${userId}`
-    )) as ApiResponse<User>;
-
-    return response;
+    return await res.json();
   } catch (err) {
     const error = err as Error;
     return {
-      code: "500",
+      code: 500,
       message: error.message,
+      data: [],
     };
   }
 };
