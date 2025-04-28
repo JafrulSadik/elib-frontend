@@ -6,6 +6,14 @@ import { revalidatePath } from "next/cache";
 
 export const addToMyLibrary = async (bookId: string) => {
   const session = await auth();
+
+  if (!session) {
+    return {
+      code: 401,
+      message: "Unauthorized",
+    };
+  }
+
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/favourite/add`,
