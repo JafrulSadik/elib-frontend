@@ -1,6 +1,7 @@
 "use client";
 
 import CompactBookCard from "@/components/common/CompactBookCard";
+import { ratingCount } from "@/lib/ratingCount";
 import { Book } from "@/types/Book";
 import useEmblaCarousel from "embla-carousel-react";
 
@@ -22,8 +23,8 @@ const TopRatedSlider = ({ books }: { books: Book[] }) => {
               title={book.title}
               cover={book.cover}
               author={book.author.name}
-              rating={4.7 + i * 0.1}
-              reviews={5}
+              rating={ratingCount(book?.totalRating, book?.numOfRating)}
+              reviews={book?.numOfRating || 0}
             />
           ))}
         </div>
