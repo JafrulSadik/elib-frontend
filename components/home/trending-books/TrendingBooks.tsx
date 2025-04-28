@@ -1,5 +1,5 @@
 import { getLatestBooks } from "@/lib/fetchData";
-import SeeAllNewReleases from "./SeeAllNewReleases";
+import SeeAllTrendings from "./SeeAllTrendingBooks";
 import TrendingBookSlider from "./TrendingBookSlider";
 import TrendingBooksError from "./TrendingBooksError";
 
@@ -26,7 +26,7 @@ const TrendingBooks = async () => {
       <div className="container w-[90%] md:w-full md:space-y-8">
         <TrendingBookSlider books={trendingBooks} />
         <div className="flex justify-center pt-2 mt-5 md:mt-0">
-          <SeeAllNewReleases />
+          <SeeAllTrendings />
         </div>
       </div>
     </section>
