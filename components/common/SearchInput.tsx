@@ -19,7 +19,7 @@ const SearchInput = () => {
     } else {
       if (searchParams.has("search")) {
         params.delete("search");
-        router.push(`/books?${params.toString()}`);
+        router.push(`/books?${params?.toString()}`);
       }
     }
   });

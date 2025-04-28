@@ -3,7 +3,7 @@
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
 import useEmblaCarousel from "embla-carousel-react";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import DotButton, { useDotButton } from "./DotButtonsSlider";
@@ -74,7 +74,7 @@ const Slider = () => {
                     <p className="text-xs md:text-base lg:text-xl text-gray-300">
                       {slide.subtitle}
                     </p>
-                    <div className="flex items-center justify-center md:justify-start space-x-6">
+                    {/* <div className="flex items-center justify-center md:justify-start space-x-6">
                       <div className="hidden md:flex items-center text-base lg:text-xl">
                         <Star className="size-5 text-yellow-400 fill-current" />
                         <span className="text-white ml-2 ">{slide.rating}</span>
@@ -82,9 +82,9 @@ const Slider = () => {
                           ({slide.reviews} reviews)
                         </span>
                       </div>
-                    </div>
+                    </div> */}
                     <Link
-                      href="/search"
+                      href="/books"
                       className="group inline-flex gap-1 md:gap-2 items-center text-xxs md:text-sm lg:text-base py-1 px-2 md:py-2 md:px-4 lg:px-8 lg:py-3 bg-[#C5A572] text-[#2B1810] shadow-black shadow-xs rounded-[4px] md:rounded-md lg:rounded-lg hover:bg-[#D4B684] transition duration-300"
                     >
                       <span className="font-semibold">Explore Now</span>
