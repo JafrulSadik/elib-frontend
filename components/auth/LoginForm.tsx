@@ -103,39 +103,26 @@ const LoginForm = () => {
         </motion.p>
       )}
 
-      <div className="flex items-center justify-between">
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            checked={rememberMe}
-            className="rounded accent-[#3D261C] border-[#C5A572] text-[#C5A572]"
-            onChange={(e) => setRememberMe(e.target.checked)}
-          />
-          <span className="ml-2 text-[#C5A572]">Remember me</span>
-        </label>
-        <Link href="" className="text-[#C5A572] hover:text-[#D4B684]">
-          Forgot password?
-        </Link>
+      <div className="pt-4">
+        <button
+          type="submit"
+          disabled={loading}
+          className={`w-full flex cursor-pointer gap-2 items-center justify-center  bg-[#C5A572] text-[#2B1810] py-3 rounded-lg hover:bg-[#D4B684] transition duration-300 font-semibold ${
+            loading && "opacity-70"
+          }`}
+        >
+          {loading && (
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+            >
+              <Loader className="size-5 animate-spin" />
+            </motion.span>
+          )}{" "}
+          Sign in
+        </button>
       </div>
-
-      <button
-        type="submit"
-        disabled={loading}
-        className={`w-full flex cursor-pointer gap-2 items-center justify-center bg-[#C5A572] text-[#2B1810] py-3 rounded-lg hover:bg-[#D4B684] transition duration-300 font-semibold ${
-          loading && "opacity-70"
-        }`}
-      >
-        {loading && (
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-          >
-            <Loader className="size-5 animate-spin" />
-          </motion.span>
-        )}{" "}
-        Sign in
-      </button>
 
       <p className="text-center text-gray-400">
         Don&apos;t have an account?{" "}
