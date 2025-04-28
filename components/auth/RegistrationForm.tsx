@@ -1,15 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
+import { errorToast, successToast } from "@/lib/notify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Loader, Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Field from "./Field";
 import InputField from "./InputField";
 import PasswordField from "./PasswordField";
+
+type RegistrationResponseType = {
+  accessToken: string;
+};
 
 export const registerSchema = z
   .object({
@@ -65,6 +71,8 @@ const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+
   const handleToggleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
@@ -80,14 +88,30 @@ const RegistrationForm = () => {
     }
 
     try {
-      // const response: Response = await signIn("credentials", {
-      //   email: formData.email,
-      //   password: formData.password,
-      //   redirect: false,
-      // });
-      // if (response?.error) {
-      //   setError("root.random", { message: "Invalid email or password" });
-      // }
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData?.fname + " " + formData?.lname,
+            email: formData?.email,
+            password: formData?.password,
+          }),
+        }
+      );
+
+      console.log(response);
+
+      if (!response.ok) {
+        setError("root.random", { message: "Something went wrong." });
+        errorToast("Failed to register!");
+      } else {
+        successToast("Registration successfull!");
+        router.push("/login");
+      }
     } catch (err) {
       const error = err as Error;
       setError("root.random", { message: "Something went wrong." });
