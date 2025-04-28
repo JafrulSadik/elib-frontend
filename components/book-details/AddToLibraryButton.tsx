@@ -3,6 +3,7 @@
 import { addToMyLibrary } from "@/app/action/book-action";
 import { errorToast, successToast } from "@/lib/notify";
 import { BookCheck, BookMarked, Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type Props = {
@@ -14,9 +15,17 @@ const AddToLibrary = ({ bookId, favourite }: Props) => {
   const [loading, setLoading] = useState(false);
   const [isFavourite, setIsFavourite] = useState(favourite);
 
+  const router = useRouter();
+
   const handleAddToLibrary = async () => {
     setLoading(true);
     const response = await addToMyLibrary(bookId);
+
+    if (response.code === 401) {
+      router.push("/login");
+      errorToast("Please login to add books to your library");
+      return;
+    }
 
     if (response.code !== 200) {
       errorToast(response.message);
