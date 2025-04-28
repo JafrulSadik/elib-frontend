@@ -38,6 +38,7 @@ const TrendingBookSlider = ({ books }: { books: Book[] }) => {
             {books.map((book, i) => (
               <MiniCard
                 key={book?._id}
+                bookId={book?._id}
                 title={book?.title}
                 cover={book?.cover}
               />
