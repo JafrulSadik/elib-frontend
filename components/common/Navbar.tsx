@@ -4,6 +4,7 @@ import { BookOpen } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import ProfileImg from "./ProfileImg";
+import SearchInput from "./SearchInput";
 
 const Navbar = () => {
   const { data: loggedInUser, status } = useSession();
@@ -20,7 +21,7 @@ const Navbar = () => {
             </span>
           </Link>
 
-          {/* <SearchInput /> */}
+          <SearchInput />
 
           {!user && status === "unauthenticated" && (
             <div className="flex items-center space-x-4">

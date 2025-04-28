@@ -7,8 +7,8 @@ type CompactBookCardProps = {
   author: string;
   cover: string;
   price?: string;
-  rating?: number;
-  reviews?: number;
+  rating: number;
+  reviews: number;
 };
 
 const CompactBookCard = ({
@@ -36,19 +36,24 @@ const CompactBookCard = ({
                 {title}
               </h3>
               <p className="text-gray-300 text-xxs line-clamp-1">{author}</p>
-              {rating && (
-                <div className="flex items-center justify-between mt-2">
-                  <div className="flex items-center">
-                    <span className="text-yellow-400 text-xs">★</span>
-                    <span className="ml-1 text-xs text-white">{rating}</span>
-                    {reviews && (
-                      <span className="text-gray-300 text-xs ml-1">
-                        ({reviews})
-                      </span>
-                    )}
-                  </div>
+
+              <div className="flex items-center justify-between mt-2">
+                <div className="flex items-center">
+                  <span
+                    className={`${
+                      rating > 0 ? "text-yellow-400" : "text-gray-400"
+                    }  text-xs`}
+                  >
+                    ★
+                  </span>
+                  <span className="ml-1 text-xs text-white">
+                    {rating?.toFixed(1)}
+                  </span>
+                  <span className="text-gray-300 text-xs ml-1">
+                    ({reviews})
+                  </span>
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
