@@ -1,5 +1,6 @@
 "use client";
 import useElementWidth from "@/hooks/useElementWidth";
+import { Loader } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import DisplayBook from "./DisplayBook";
@@ -12,6 +13,7 @@ type Props = {
 const BookReader = ({ bookUrl }: Props) => {
   const [color, setColor] = useState("");
   const [book, setBook] = useState<Blob>();
+  const [loading, setLoading] = useState<boolean>(true);
   const [width, setWidth] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState(1);
   const [numPages, setNumPages] = useState<number>(0);
@@ -21,6 +23,7 @@ const BookReader = ({ bookUrl }: Props) => {
   });
 
   useEffect(() => {
+    setLoading(true);
     const downloadFile = async () => {
       try {
         if (!bookUrl) {
@@ -38,6 +41,7 @@ const BookReader = ({ bookUrl }: Props) => {
       }
     };
     downloadFile();
+    setLoading(false);
   }, [bookUrl]);
 
   function handleDivWidth({ width }: { width: number }) {
@@ -82,7 +86,7 @@ const BookReader = ({ bookUrl }: Props) => {
           ref={divRef}
           className="w-full flex flex-col justify-center items-center overflow-hidden"
         >
-          {book ? (
+          {book && !loading && (
             <DisplayBook
               handleloadSuccess={handleloadSuccess}
               width={divWidth}
@@ -90,7 +94,9 @@ const BookReader = ({ bookUrl }: Props) => {
               selectedColor={color}
               book={book}
             />
-          ) : (
+          )}
+
+          {!book && !loading && (
             <div className="h-[70vh] flex flex-col justify-center items-center text-textPrimary">
               <p className="">Opps! No book found</p>
               <Link
@@ -99,6 +105,14 @@ const BookReader = ({ bookUrl }: Props) => {
               >
                 Go back!
               </Link>
+            </div>
+          )}
+
+          {loading && (
+            <div className="h-[70vh] flex flex-col justify-center items-center ">
+              <span>
+                <Loader className="animate-spin text-bgSecondary" />
+              </span>
             </div>
           )}
         </div>
