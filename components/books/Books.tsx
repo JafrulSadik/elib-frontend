@@ -1,4 +1,5 @@
 import { getBooks } from "@/lib/books";
+import { ratingCount } from "@/lib/ratingCount";
 import BookCard from "./BookCard";
 import Pagination from "./Pagination";
 type Props = {
@@ -39,12 +40,8 @@ const Books = async ({ queryString }: Props) => {
               image={book?.cover}
               title={book?.title}
               author={`Author ${book?.author?.name}`}
-              rating={
-                !!book?.numOfRating && !!book?.totalRating
-                  ? book.totalRating / book.numOfRating
-                  : 0
-              }
-              downloads={3000}
+              rating={ratingCount(book?.totalRating, book?.numOfRating)}
+              downloads={book?.downloads || 0}
               format="PDF"
             />
           ))}

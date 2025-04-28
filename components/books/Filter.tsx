@@ -27,8 +27,8 @@ const Filter = async (props: Props) => {
         }`}
       </h1>
       <div className="flex flex-col gap-2 text-xs  md:text-sm md:flex-row">
-        <SortBy sortBy={sortBy || ""} />
-        <SortType sortType={sortType || ""} />
+        <SortBy />
+        <SortType />
       </div>
     </div>
   );
